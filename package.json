@@ -4,14 +4,16 @@
   "description": "An app which determines whether there is clustering on busses",
   "main": "app.js",
   "scripts": {
-    "serve": "node app.js"
+    "serve": "nodemon app.js"
   },
   "repository": "https://github.com/brianbancroft/ttc-clustering.git",
   "author": "Brian Bancroft <hello@brianbancroft.ca>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.14.0",
     "knex-postgis": "^0.2.0",
+    "koa": "^1.2.4",
+    "koa-knexjs": "^0.12.65",
+    "nodemon": "^1.11.0",
     "pg": "^6.1.2"
   }
 }

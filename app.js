@@ -1,10 +1,20 @@
-var express = require('express')
-var app = express()
+var koa = require('koa');
+var app = koa();
+var feed = require('./includes/feed')
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
+// logger
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
-})
+app.use(function *(next){
+  var start = new Date;
+  yield next;
+  var ms = new Date - start;
+  console.log('%s %s - %s', this.method, this.url, ms);
+});
+
+// response
+
+app.use(function *(){
+  this.body = feed.initStaticSixtyFeed();
+});
+
+app.listen(3000);
