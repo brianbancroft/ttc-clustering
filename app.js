@@ -6,7 +6,7 @@ let route = require('koa-route') //require it
 let request = require('koa-request')
 let paramify = require('koa-params')
 let cors = require('koa-cors')
-let parseXML = require('xml2js').parseString;
+let parser = require('xml2js').parseString;
 
 
 
@@ -44,9 +44,15 @@ app.use(route.get('/test', function *() {
     url: 'http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=1482604075265'
   }
   let xmlResponse = yield request(options)
-  console.log(xmlResponse)
+  let jsResponse = ''
+  parser(xmlResponse.body, function(err,result){
+    //Extract the value from the data element
+    jsResponse = result
+    console.log(jsResponse);
+    console.log(`Error: ${err}`)
+  });
 
-  this.body = xmlResponse.body
+  this.body = jsResponse
 }));
 
 app.use(route.get('/otherDefaultQueries/:time', function *() {
