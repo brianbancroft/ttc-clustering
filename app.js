@@ -1,4 +1,5 @@
 let koa = require('koa');
+let json = require('koa-json');
 let feed = require('./includes/feed');
 let route = require('koa-route'); //require it
 let paramify = require('koa-params');
@@ -17,7 +18,7 @@ app.use(cors());
 param('time', function*(timeParam, next) {
   this.paramString = timeParam;
   yield next;
-}
+})
 
 // ROUTES
 
@@ -31,7 +32,7 @@ app.use(route.get('/', function*() {
   }
 }));
 
-app.user(reoute.get('/defaultQuery/:time', function*() {
+app.use(route.get('/defaultQuery/:time', function*() {
   this.body = {
     results: this.paramString
   };
