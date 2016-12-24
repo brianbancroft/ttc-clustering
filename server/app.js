@@ -4,10 +4,12 @@ const xml = require('koa-xml')
 let route = require('koa-route') // For calling specific routes
 let request = require('koa-request')  // For RESTful requests
 let paramify = require('koa-params') 
+var koaPg = require('koa-pg');
+let pg = require('pg'); // .native;
 let cors = require('koa-cors')
 let parser = require('xml2js').parseString;
 
-
+// pg.defaults.ssl = true;
 
 route = paramify(route);
 let param = route.param;
@@ -16,6 +18,8 @@ let get = route.get;
 let app = koa();
 let appPort = (process.env.PORT || 3000)
 app.use(cors());
+app.use(koaPg('postgres://127.0.0.1/ttc_clustering_dev'));
+
 
 // PARAMETERS
 param('time', function*(timeParam, next) {
@@ -66,10 +70,11 @@ app.use(route.get('/initialDefaultRouteQuery', function *() {
   });
 
   console.log(jsResponse.body.vehicle[0].$)
-  jsResponse.body.vehicle.map(obj => {
+  jsResponse.body.vehicle.map(function (obj) {
     if (obj.routeTag !== null) {
-
-    }
+      let query_content = `INSERT INTO temp_records (route_id, bus_id, capture_time, geometry) VALUES ('60', '${obj.$.id}', ${Date.now() - (obj.$.secsSinceReport * 1000)}, ST_GeomFromText('POINT(${obj.$.lng} ${obj.$.lat})'))`
+      var result = yield pg.db.client.query_(query_content)
+      console.log('result:' + result)
   })
 
   this.body = jsResponse
@@ -78,16 +83,6 @@ app.use(route.get('/initialDefaultRouteQuery', function *() {
 app.use(route.get('/subsequentDefaultRouteQueries/:time', function *() {
   this.body = this.jsResponse
 }));
-
-// DB Setup
-app.use(knex({
-  client: 'pg', 
-  connection: {
-    host: '127.0.0.1',
-    database: 'ttc_clustering_dev'
-    /** typical knex connection object */
-  }
-}))
 
 app.use(json());
 const xmlOptions = {
