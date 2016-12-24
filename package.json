@@ -2,9 +2,9 @@
   "name": "ttc-clustering",
   "version": "1.0.0",
   "description": "An app which determines whether there is clustering on busses",
-  "main": "app.js",
+  "main": "./server/app.js",
   "scripts": {
-    "serve": "nodemon app.js"
+    "serve": "nodemon ./server/app.js"
   },
   "repository": "https://github.com/brianbancroft/ttc-clustering.git",
   "author": "Brian Bancroft <hello@brianbancroft.ca>",
