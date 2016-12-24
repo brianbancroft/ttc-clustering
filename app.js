@@ -1,8 +1,8 @@
-var koa = require('koa');
-var feed = require('./includes/feed');
-var route = require('koa-route'); //require it
-var paramify = require('koa-params');
-var cors = require('koa-cors');
+let koa = require('koa');
+let feed = require('./includes/feed');
+let route = require('koa-route'); //require it
+let paramify = require('koa-params');
+let cors = require('koa-cors');
 
 
 route = paramify(route);
@@ -10,22 +10,36 @@ let param = route.param;
 let get = route.get;
 
 let app = koa();
-
 let appPort = (process.env.PORT || 3000)
+app.use(cors());
 
+// PARAMETERS
+param('time', function*(timeParam, next) {
+  this.paramString = timeParam;
+  yield next;
+}
 
+// ROUTES
 
 app.use(function *(next){
-  var start = new Date;
   yield next;
-  var ms = new Date - start;
-  console.log('%s %s - %s', this.method, this.url, ms);
 });
+
+app.use(route.get('/', function*() {
+  this.body = {
+    message: 'System is working'
+  }
+}));
+
+app.user(reoute.get('/defaultQuery/:time', function*() {
+  this.body = {
+    results: this.paramString
+  };
+}));
 
 // response
 
-app.use(function *(){
-  this.body = 'test test';
-});
+app.user(json());
 
-app.listen(3000);
+app.listen(appPort);
+console.log('--- Listening at post ' + appPort);
