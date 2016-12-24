@@ -2,7 +2,7 @@ const koa = require('koa')
 const json = require('koa-json')
 const xml = require('koa-xml')
 let route = require('koa-route') // For calling specific routes
-let knex = requere('koa-knexjs') // For specific SQL requests
+let knex = require('koa-knexjs') // For specific SQL requests
 let request = require('koa-request')  // For RESTful requests
 let paramify = require('koa-params') 
 let cors = require('koa-cors')
@@ -81,7 +81,7 @@ app.use(knex({
     database: 'ttc_clustering_dev'
     /** typical knex connection object */
   }
-})
+}))
 
 app.use(json());
 const xmlOptions = {
