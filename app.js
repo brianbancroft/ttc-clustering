@@ -16,7 +16,28 @@ app.use(cors());
 
 // PARAMETERS
 param('time', function*(timeParam, next) {
-  this.paramString = timeParam;
+  function httpGetAsync(endpoint, callback) {
+    let xmlRequest = new XMLHttpRequest();
+  
+    xmlRequest.onreadystatechange = function () {
+      if (xmlRequest.readyState == 4 && xmlRequest.status == 200)
+        callback(xmlRequest.responseText);
+    }
+    xmlRequest.open('GET', endpoint, true);
+    xmlRequest.send(null);
+  };
+  function returnFeed(data) {
+    this.xmlFeed = data
+  };
+  
+  let query = '';
+  if (timeParam === '') {
+    query = 'http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60'
+  } else {
+    query = `http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=${timeParam}`
+  }
+
+  httpGetAsync(query, returnFeed);
   yield next;
 })
 
@@ -40,7 +61,7 @@ app.use(route.get('/defaultQuery/:time', function*() {
 
 // response
 
-app.user(json());
+app.use(json());
 
 app.listen(appPort);
 console.log('--- Listening at post ' + appPort);
