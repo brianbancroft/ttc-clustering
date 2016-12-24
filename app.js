@@ -23,7 +23,18 @@ param('time', function*(timeParam, next) {
   let options = {
     url: `http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=${timeParam}`
   };
-  this.xmlResponse = yield request(options)
+  xmlResponse = yield request(options)
+  let jsResponse = ''
+  parser(xmlResponse.body, function(err,result){
+    //Extract the value from the data element
+    jsResponse = result
+    if (err !== null) {
+      console.log(`Error: ${err}`)
+    } else {
+      console.log('Success in parsing from XML to JSON')
+    }
+  })
+  this.jsResponse = jsResponse
   yield next;
 })
 
@@ -39,26 +50,27 @@ app.use(route.get('/', function *() {
   }
 }));
 
-app.use(route.get('/test', function *() {
+app.use(route.get('/initialDefaultRouteQuery', function *() {
   let options = {
-    url: 'http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=1482604075265'
+    url: 'http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60'
   }
   let xmlResponse = yield request(options)
   let jsResponse = ''
   parser(xmlResponse.body, function(err,result){
     //Extract the value from the data element
     jsResponse = result
-    console.log(jsResponse);
-    console.log(`Error: ${err}`)
+    if (err !== null) {
+      console.log(`Error: ${err}`)
+    } else {
+      console.log('Success in parsing from XML to JSON')
+    }
   });
 
   this.body = jsResponse
 }));
 
-app.use(route.get('/otherDefaultQueries/:time', function *() {
-  this.body = {
-    results: this.xmlResponse.body
-  };
+app.use(route.get('/subsequentDefaultRouteQueries/:time', function *() {
+  this.body = this.jsResponse
 }));
 
 // response
