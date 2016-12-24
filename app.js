@@ -1,8 +1,19 @@
 var koa = require('koa');
-var app = koa();
-var feed = require('./includes/feed')
+var feed = require('./includes/feed');
+var route = require('koa-route'); //require it
+var paramify = require('koa-params');
+var cors = require('koa-cors');
 
-// logger
+
+route = paramify(route);
+let param = route.param;
+let get = route.get;
+
+let app = koa();
+
+let appPort = (process.env.PORT || 3000)
+
+
 
 app.use(function *(next){
   var start = new Date;
@@ -14,7 +25,7 @@ app.use(function *(next){
 // response
 
 app.use(function *(){
-  this.body = feed.initStaticSixtyFeed();
+  this.body = 'test test';
 });
 
 app.listen(3000);

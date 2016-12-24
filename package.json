@@ -12,7 +12,10 @@
   "dependencies": {
     "knex-postgis": "^0.2.0",
     "koa": "^1.2.4",
+    "koa-cors": "^0.0.16",
     "koa-knexjs": "^0.12.65",
+    "koa-params": "^1.1.0",
+    "koa-route": "^2.4.2",
     "nodemon": "^1.11.0",
     "pg": "^6.1.2"
   }
