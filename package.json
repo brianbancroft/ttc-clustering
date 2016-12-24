@@ -1,0 +1,17 @@
+{
+  "name": "ttc-clustering",
+  "version": "1.0.0",
+  "description": "An app which determines whether there is clustering on busses",
+  "main": "app.js",
+  "scripts": {
+    "serve": "node app.js"
+  },
+  "repository": "https://github.com/brianbancroft/ttc-clustering.git",
+  "author": "Brian Bancroft <hello@brianbancroft.ca>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0",
+    "knex-postgis": "^0.2.0",
+    "pg": "^6.1.2"
+  }
+}
