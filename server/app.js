@@ -2,7 +2,6 @@ const koa = require('koa')
 const json = require('koa-json')
 const xml = require('koa-xml')
 let route = require('koa-route') // For calling specific routes
-let knex = require('koa-knexjs') // For specific SQL requests
 let request = require('koa-request')  // For RESTful requests
 let paramify = require('koa-params') 
 let cors = require('koa-cors')
@@ -65,6 +64,13 @@ app.use(route.get('/initialDefaultRouteQuery', function *() {
       console.log('Success in parsing from XML to JSON')
     }
   });
+
+  console.log(jsResponse.body.vehicle[0].$)
+  jsResponse.body.vehicle.map(obj => {
+    if (obj.routeTag !== null) {
+
+    }
+  })
 
   this.body = jsResponse
 }));
