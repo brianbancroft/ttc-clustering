@@ -1,9 +1,13 @@
-let koa = require('koa');
-let json = require('koa-json');
-let feed = require('./includes/feed');
-let route = require('koa-route'); //require it
-let paramify = require('koa-params');
-let cors = require('koa-cors');
+const koa = require('koa')
+const json = require('koa-json')
+const xml = require('koa-xml')
+let feed = require('./includes/feed')
+let route = require('koa-route') //require it
+let request = require('koa-request')
+let paramify = require('koa-params')
+let cors = require('koa-cors')
+let parseXML = require('xml2js').parseString;
+
 
 
 route = paramify(route);
@@ -16,28 +20,10 @@ app.use(cors());
 
 // PARAMETERS
 param('time', function*(timeParam, next) {
-  function httpGetAsync(endpoint, callback) {
-    let xmlRequest = new XMLHttpRequest();
-  
-    xmlRequest.onreadystatechange = function () {
-      if (xmlRequest.readyState == 4 && xmlRequest.status == 200)
-        callback(xmlRequest.responseText);
-    }
-    xmlRequest.open('GET', endpoint, true);
-    xmlRequest.send(null);
+  let options = {
+    url: `http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=${timeParam}`
   };
-  function returnFeed(data) {
-    this.xmlFeed = data
-  };
-  
-  let query = '';
-  if (timeParam === '') {
-    query = 'http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60'
-  } else {
-    query = `http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=${timeParam}`
-  }
-
-  httpGetAsync(query, returnFeed);
+  this.xmlResponse = yield request(options)
   yield next;
 })
 
@@ -47,21 +33,38 @@ app.use(function *(next){
   yield next;
 });
 
-app.use(route.get('/', function*() {
+app.use(route.get('/', function *() {
   this.body = {
     message: 'System is working'
   }
 }));
 
-app.use(route.get('/defaultQuery/:time', function*() {
+app.use(route.get('/test', function *() {
+  let options = {
+    url: 'http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=1482604075265'
+  }
+  let xmlResponse = yield request(options)
+  console.log(xmlResponse)
+
+  this.body = xmlResponse.body
+}));
+
+app.use(route.get('/otherDefaultQueries/:time', function *() {
   this.body = {
-    results: this.paramString
+    results: this.xmlResponse.body
   };
 }));
 
 // response
 
 app.use(json());
+const xmlOptions = {
+  normalize: true,
+  firstCharLowerCase: true,
+  explicitArray: false,
+  ignoreAttrs: true
+}
+app.use(xml(xmlOptions))
 
 app.listen(appPort);
 console.log('--- Listening at post ' + appPort);
