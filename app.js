@@ -1,10 +1,10 @@
 const koa = require('koa')
 const json = require('koa-json')
 const xml = require('koa-xml')
-let feed = require('./includes/feed')
-let route = require('koa-route') //require it
-let request = require('koa-request')
-let paramify = require('koa-params')
+let route = require('koa-route') // For calling specific routes
+let knex = requere('koa-knexjs') // For specific SQL requests
+let request = require('koa-request')  // For RESTful requests
+let paramify = require('koa-params') 
 let cors = require('koa-cors')
 let parser = require('xml2js').parseString;
 
@@ -73,7 +73,15 @@ app.use(route.get('/subsequentDefaultRouteQueries/:time', function *() {
   this.body = this.jsResponse
 }));
 
-// response
+// DB Setup
+app.use(knex({
+  client: 'pg', 
+  connection: {
+    host: '127.0.0.1',
+    database: 'ttc_clustering_dev'
+    /** typical knex connection object */
+  }
+})
 
 app.use(json());
 const xmlOptions = {
