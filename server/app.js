@@ -18,7 +18,7 @@ let get = route.get;
 let app = koa();
 let appPort = (process.env.PORT || 3000)
 app.use(cors());
-app.use(koaPg('postgres://127.0.0.1/ttc_clustering_dev'));
+app.use(koaPg('postgres://brianbancroft@localhost:5432/ttc_clustering_dev'));
 
 
 // PARAMETERS
@@ -69,18 +69,28 @@ app.use(route.get('/initialDefaultRouteQuery', function *() {
     }
   });
 
-  console.log(jsResponse.body.vehicle[0].$)
-  jsResponse.body.vehicle.map(function (obj) {
-    if (obj.routeTag !== null) {
-      let query_content = `INSERT INTO temp_records (route_id, bus_id, capture_time, geometry) VALUES ('60', '${obj.$.id}', ${Date.now() - (obj.$.secsSinceReport * 1000)}, ST_GeomFromText('POINT(${obj.$.lng} ${obj.$.lat})'))`
-      var result = yield pg.db.client.query_(query_content)
-      console.log('result:' + result)
-  })
+  let i = 0
+  while (i < jsResponse.body.vehicle.length) {
+    console.log('======== NEW ITEM ==========')
+    console.log(jsResponse.body.vehicle[i].$)
+    let query_content = `INSERT INTO temp_records (route_id, bus_id, capture_time, geometry) VALUES ('60', '${jsResponse.body.vehicle[i].$.id}', ${Date.now() - (jsResponse.body.vehicle[i].$.secsSinceReport * 1000)}, ST_GeomFromText('POINT(${jsResponse.body.vehicle[i].$.lng} ${jsResponse.body.vehicle[i].$.lat})'))` 
+    
+    debugger;
+    let result = yield pg.db.client.query_(query_content)
+    console.log('result:' + result)
+    i += 1;
+  }
+  // jsResponse.body.vehicle.map(function (obj) {
+  //   if (obj.routeTag !== null) {
+  //     let query_content = `INSERT INTO temp_records (route_id, bus_id, capture_time, geometry) VALUES ('60', '${obj.$.id}', ${Date.now() - (obj.$.secsSinceReport * 1000)}, ST_GeomFromText('POINT(${obj.$.lng} ${obj.$.lat})'))`
+  //     var result = yield pg.db.client.query_(query_content)
+  //     console.log('result:' + result)
+  // }});
 
-  this.body = jsResponse
+  this.body = 'Finished!'
 }));
 
-app.use(route.get('/subsequentDefaultRouteQueries/:time', function *() {
+app.use(route.get('/defaultRouteQueries/:time', function *() {
   this.body = this.jsResponse
 }));
 
