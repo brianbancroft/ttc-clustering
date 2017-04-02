@@ -24,3 +24,31 @@ I'm usually a rails dev, so making this happen will be tricky for me. It will be
 
 
 
+### Additions:
+
+
+#### CRON
+Intent is to do further actions through cron jobs in Express:
+
+https://www.npmjs.com/package/node-schedule
+
+#### XML TO JSON
+
+https://github.com/Leonidas-from-XIV/node-xml2js
+
+#### HTTP GET
+
+https://nodejs.org/api/http.html#http_http_get_options_callback
+
+
+
+
+
+API Point
+
+First request: http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60
+Subsequent: http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=1491104874326
+
+t is obtained from the prior request. 
+
+
