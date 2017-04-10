@@ -1,0 +1,12 @@
+{
+  "name": "ttc-clustering",
+  "version": "1.0.0",
+  "description": "A clustering app for the TTC",
+  "main": "index.js",
+  "repository": "https://github.com/brianbancroft/ttc-clustering.git",
+  "author": "Brian Bancroft <hello@brianbancroft.ca>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
