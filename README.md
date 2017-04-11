@@ -10,13 +10,14 @@ I intend the stack to be Node with Express or Koa, PostGres with PostGIS.
 
 ## Stages
 
-1. Determine End Points of the TTC Real-Time Feed
-2. Create back-end Framework that scrapes feed on command
-3. Create back-end feed that scrapes feed at certain times of day without user interaction
-4. Determine whether systematic clustering is ongoing
-5. Seek assistance from a Civic Tech community in both design of dataviz, bringing awareness to the issue (if there is one)
-6. Create dataviz
-7. Bring to attention at certain levels. 
+1. [x] Determine End Points of the TTC Real-Time Feed
+2. [x] Create back-end Framework that scrapes feed on command
+3. [] Upload to PostGIS, using a `ST_Within` for each point to determine every point
+4. [] Create back-end feed that scrapes feed at certain times of day without user interaction
+5. [] Determine whether systematic clustering is ongoing
+6. [] Seek assistance from a Civic Tech community in both design of dataviz, bringing awareness to the issue (if there is one)
+7. [] Create dataviz
+8. [] Bring to attention at certain levels. 
 
 ## Disclaimer. 
 

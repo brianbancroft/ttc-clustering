@@ -3,7 +3,6 @@ const app = express()
 
 var rp = require('request-promise');
 const http = require('http')
-// const https = require('https')
  
 app.set('view engine', 'ejs')
 let output
@@ -46,6 +45,12 @@ app.get('/request', (req, res) => {
     // Obtains last time
     let lastTimeData = output.lastTime.time
     console.log(lastTimeData)
+    
+    console.log(Object.keys(output.vehicle))
+    output.vehicle.forEach((vehicle) => {
+      // TODO -> UPLOAD TO PostGIS. 
+      console.log(vehicle)
+    }, this);
   })
 
   
