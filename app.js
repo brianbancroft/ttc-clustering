@@ -1,37 +1,34 @@
 const express = require('express')
 const app = express()
 
+var rp = require('request-promise');
 const http = require('http')
-const https = require('https')
+// const https = require('https')
  
 app.set('view engine', 'ejs')
+let output
 
-function performRequest(endpoint, success, lastTime = 'na') {
-  const bareEndPoint = 'http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60'
+// function performRequest(callback) {
+//     const path = `http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491951669267`
 
-  if (lastTime !== 'na') {
-    let tempEndPoint = `${bareEndPoint}`
-  } else {
-    let tempEndPoint = `${bareEndPoint}/t=${lastTime}`
-  }
+//     const request = new Promise((resolve, reject) => {
+//       return http.get(path, (response) => {
+//         // Continuously update stream with data
+//         let body = '';
+//         response.on('data', function(d) {
+//             body += d;
+//         });
+//         response.on('end', function() {
+//             console.log(body)
+//             // Data reception is done, do whatever with it!
+//             const parsed = JSON.parse(body);
+//             callback(parsed.message);
+//         });
+//       });
+//     })
+// }
 
-  const req = https.request(options, (res) => {
-    res.setEncoding('utf-8')
-    let responseString = ''
 
-    res.on('data', (data) => {
-      responseString += data
-    })
-
-    res.on('end', () => {
-      console.log('responseString')
-      let responseObject = JSON.parse(responseString)
-      success(responseObject)
-    })
-  })
-  req.write(dataString)
-  req.end()
-}
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -39,6 +36,15 @@ app.get('/', (req, res) => {
 
 app.get('/home', (req, res) => {
   res.render('index', { title: 'The Index Page!' })
+})
+
+app.get('/request', (req, res) => {
+  // performRequest()
+  performRequest((output) => {
+    res.render('bus',{ data: output} )
+  })
+
+  
 })
 
 app.listen(3000, () => {
