@@ -8,27 +8,27 @@ const http = require('http')
 app.set('view engine', 'ejs')
 let output
 
-// function performRequest(callback) {
-//     const path = `http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491951669267`
+function performRequest(callback) {
 
-//     const request = new Promise((resolve, reject) => {
-//       return http.get(path, (response) => {
-//         // Continuously update stream with data
-//         let body = '';
-//         response.on('data', function(d) {
-//             body += d;
-//         });
-//         response.on('end', function() {
-//             console.log(body)
-//             // Data reception is done, do whatever with it!
-//             const parsed = JSON.parse(body);
-//             callback(parsed.message);
-//         });
-//       });
-//     })
-// }
-
-
+  var options = {
+      uri: 'http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491951669267',
+      // qs: {
+      //     access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx' 
+      // },
+      headers: {
+          'User-Agent': 'Request-Promise'
+      },
+      json: true // Automatically parses the JSON string in the response 
+  };
+  
+  rp(options)
+      .then(function (payload) {
+          callback(payload);
+      })
+      .catch(function (err) {
+          console.log(err) 
+      });
+}
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -41,7 +41,11 @@ app.get('/home', (req, res) => {
 app.get('/request', (req, res) => {
   // performRequest()
   performRequest((output) => {
-    res.render('bus',{ data: output} )
+    // res.render('bus',{ data: output} )
+    console.log(Object.keys(output))
+    // Obtains last time
+    let lastTimeData = output.lastTime.time
+    console.log(lastTimeData)
   })
 
   
