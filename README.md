@@ -10,14 +10,18 @@ I intend the stack to be Node with Express or Koa, PostGres with PostGIS.
 
 ## Stages
 
-1. [x] Determine End Points of the TTC Real-Time Feed
-2. [x] Create back-end Framework that scrapes feed on command
-3. [] Upload to PostGIS, using a `ST_Within` for each point to determine every point
-4. [] Create back-end feed that scrapes feed at certain times of day without user interaction
-5. [] Determine whether systematic clustering is ongoing
-6. [] Seek assistance from a Civic Tech community in both design of dataviz, bringing awareness to the issue (if there is one)
-7. [] Create dataviz
-8. [] Bring to attention at certain levels. 
+- [x] Determine End Points of the TTC Real-Time Feed
+- [x] Create back-end Framework that scrapes feed on command
+- [] Upload to PostGIS, using a `ST_Within` for each point to determine every point
+- [] Create Cron Job that scrapes feed at certain times of day automatically
+- [] Setup Admin Panel which sets the tasks
+- [] Determine whether systematic clustering is ongoing
+- [] Create dataviz
+- [] Rebuild from mobile-first design
+- [] Seek assistance from a Civic Tech community to do the following:
+  1. Figure out better use strategy
+  2. Improve user experience
+  3. Determine better strategy for bringing forward to higher powers
 
 ## Disclaimer. 
 
@@ -109,7 +113,7 @@ SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(locat
 SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points 
   WHERE ST_DWithin(ST_GeomFromText('POINT(-79.526535 43.774467)'), location, 1000);
 
-```
+``` 
 
 #### Select within 1000m as JSON (not working)
 
