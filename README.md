@@ -92,10 +92,15 @@ VALUES('60', 'up', 0, current_timestamp, false, ST_GeomFromText('POINT(-71.06031
 
 #### SELECT ALL AS GEOJSON
 ```
-SELECT (id, route, direction_tag, heading, time, ST_AsGeoJSON(location)) FROM cluster_points;
+SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points;
 ```
 #### UPDATE into record by ID
+```
+UPDATE cluster_points
+SET is_clustered = true
+WHERE id=2;
 
+```
 
 Table: ttc_cluster_points
 
