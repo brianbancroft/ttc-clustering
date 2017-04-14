@@ -3,9 +3,15 @@ const app = express()
 
 var rp = require('request-promise');
 const http = require('http')
- 
+
 app.set('view engine', 'ejs')
 let output
+
+const pg = require('pg');
+const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/ttc_clustering_development';
+
+const client = new pg.Client(connectionString);
+client.connect();
 
 function performRequest(callback) {
 
