@@ -45,11 +45,33 @@ https://nodejs.org/api/http.html#http_http_get_options_callback
 
 
 
-API Point
+### API Point
 
 First request: http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60
 Subsequent: http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=1491104874326
 
 t is obtained from the prior request. 
 
+### API Reply:
 
+```
+{ id: '1226',
+  lon: '-79.467018',
+  routeTag: '60',
+  predictable: 'true',
+  dirTag: '60_1_60B',
+  heading: '256',
+  lat: '43.787998',
+  secsSinceReport: '9' }
+```
+
+### SCHEMA
+
+Table: ttc_cluster_points
+
+- ID INT UNIQUE PRIMARY KEY
+- GEOM SRID 4326 (or not. maybe I UTM zone 17N) - EPSG:26917
+- ROUTE String
+- direction_tag String
+- heading int
+- time time, (usually time of ingest). 
