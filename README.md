@@ -74,7 +74,7 @@ First condition: `CREATE EXTENSION postgis;`
 #### Create Table Command
 ```
 CREATE TABLE cluster_points(
-  id INT PRIMARY KEY,
+  id SERIAL,
   route TEXT,
   direction_tag TEXT,
   heading INT,
@@ -82,6 +82,12 @@ CREATE TABLE cluster_points(
   is_clustered BOOLEAN,
   location geography(POINT, 4326)
 );
+```
+
+#### Insert Into Table Command
+```
+INSERT INTO cluster_points(route, direction_tag, heading, time, is_clustered, location)
+VALUES('60', 'up', 0, current_timestamp, false, ST_GeomFromText('POINT(-71.060316 48.432044)', 4326));
 ```
 
 
