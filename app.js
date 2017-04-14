@@ -3,6 +3,8 @@ const app = express()
 
 var rp = require('request-promise')
 const http = require('http')
+var moment = require('moment');
+moment().format();
 
 app.set('view engine', 'ejs')
 let output
@@ -64,18 +66,6 @@ function performRequest(callback) {
       .catch(function (err) {
           console.log(err) 
       });
-}
-
-function getRightParams(params) {
-  console.log('=========== New Bus ============')
-  console.log(`ID: ${params.id}`)
-  console.log(`routeTag: ${params.routeTag}`)
-  console.log(`direction tag: ${params.dirTag}`)
-  console.log(`Heading: ${params.heading}`)
-  console.log(`Time since last report: ${params.secsSinceReport}`)
-  console.log(`Latitude: ${params.lat}`)
-  console.log(`Longitude: ${params.lon}`)
-  console.log('-------- end of record --------')
 }
 
 app.get('/', (req, res) => {

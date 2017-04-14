@@ -12,6 +12,7 @@
     "http": "0.0.0",
     "knex": "^0.12.9",
     "knex-postgis": "^0.2.1",
+    "moment": "^2.18.1",
     "pg": "^6.1.5",
     "request": "^2.81.0",
     "request-promise": "^4.2.0"
