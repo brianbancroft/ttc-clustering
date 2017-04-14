@@ -21,7 +21,7 @@ function readRecords(params) {
 // Returns all records within a specific distance
 function readRecordsWithinDistance(params) {
   return client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points 
-  WHERE ST_DWithin(ST_GeomFromText('POINT(${params.long} ${params.lat})', location, ${params.distance})`)
+  WHERE ST_DWithin(ST_GeomFromText('POINT(${params.long} ${params.lat})'), location, ${params.distance});`)
 }
 
 // Returns a record with a specific ID
@@ -39,8 +39,12 @@ function updateClusteredRecord(params) {
 
 // Creates a new record based from geoData
 function insertRecord(params) {
-  client.query(`INSERT INTO cluster_points(route, direction_tag, heading, time, is_clustered, location)
-    VALUES('${params.route}, ${params.directionTag}, ${params.heading}, ${params.time}, ${params.isClustered}, ST_GeomFromText('POINT(${params.long} ${params.lat})', 4326));`)
+  console.log('====== NEW  QUERY ========')
+  const queryString = `INSERT INTO cluster_points(route, direction_tag, heading, is_clustered, location)
+    VALUES('${params.route}', '${params.directionTag}', ${params.heading}, ${params.isClustered}, ST_GeomFromText('POINT(${params.lon} ${params.lat})', 4326));`
+  console.log(queryString)
+  client.query(queryString)
+  console.log('===== end of query =======`')
 }
 
 function performRequest(callback) {
@@ -62,6 +66,18 @@ function performRequest(callback) {
       });
 }
 
+function getRightParams(params) {
+  console.log('=========== New Bus ============')
+  console.log(`ID: ${params.id}`)
+  console.log(`routeTag: ${params.routeTag}`)
+  console.log(`direction tag: ${params.dirTag}`)
+  console.log(`Heading: ${params.heading}`)
+  console.log(`Time since last report: ${params.secsSinceReport}`)
+  console.log(`Latitude: ${params.lat}`)
+  console.log(`Longitude: ${params.lon}`)
+  console.log('-------- end of record --------')
+}
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
@@ -81,16 +97,20 @@ app.get('/request', (req, res) => {
     console.log(Object.keys(output))
     // Obtains last time
     let lastTimeData = output.lastTime.time
-    console.log(lastTimeData)
-    
-    console.log(Object.keys(output.vehicle))
-    output.vehicle.forEach((vehicle) => {
-      // TODO -> UPLOAD TO PostGIS. 
-      console.log(vehicle)
-    }, this);
-  })
+    const currentTime = new Date()
 
-  
+    output.vehicle.forEach((vehicle) => {
+      insertRecord({
+        route: 60,
+        directionTag: vehicle.dirTag,
+        heading: vehicle.heading,
+        time: currentTime,
+        isClustered: false,
+        lon: vehicle.lon,
+        lat: vehicle.lat,
+      })
+    }, this);
+  }) 
 })
 
 app.listen(3000, () => {

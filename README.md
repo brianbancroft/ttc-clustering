@@ -84,7 +84,7 @@ CREATE TABLE cluster_points(
 #### Insert Into Table Command
 ```
 INSERT INTO cluster_points(route, direction_tag, heading, time, is_clustered, location)
-VALUES('60', 'up', 0, current_timestamp, false, ST_GeomFromText('POINT(-71.060316 48.432044)', 4326));
+VALUES('60', 'up', 0, current_timestamp, false, ST_GeomFromText('POINT(-79.526535 43.774467)', 4326));
 ```
 
 #### SELECT ALL AS GEOJSON
@@ -98,6 +98,28 @@ SET is_clustered = true
 WHERE id=2;
 
 ```
+#### Select One
+```
+SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points 
+  WHERE id=2;
+```
+
+#### Select within 1000 meters
+```
+SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points 
+  WHERE ST_DWithin(ST_GeomFromText('POINT(-79.526535 43.774467)'), location, 1000);
+
+```
+
+#### Select within 1000m as JSON (not working)
+
+```
+SELECT row_to_json(id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points 
+  WHERE ST_DWithin(ST_GeomFromText('POINT(-79.526535 43.774467)'), location, 1000);
+
+```
+
+
 
 Table: ttc_cluster_points
 
