@@ -13,13 +13,22 @@ const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/
 const client = new pg.Client(connectionString)
 client.connect()
 
-function readRecords(route, time) {
+// Returns all records for a given route on a specific day (for dataviz)
+function readRecords(route, date) {
 
 }
 
+// Returns all records within a specific distance
+function readRecordsWithinDistance(distance, route, heading, time) {
+
+}
+
+// Returns a record with a specific ID
 function readRecord(id) {
 
 }
+
+// Updates a record. Unsure of what to use. 
 function updateRecord(params) {
 
 }
