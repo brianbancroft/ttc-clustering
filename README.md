@@ -65,13 +65,32 @@ t is obtained from the prior request.
   secsSinceReport: '9' }
 ```
 
-### SCHEMA
+### SCHEMA AND SETUP
+
+table: `ttc_clustering_development`
+First condition: `CREATE EXTENSION postgis;`
+
+
+#### Create Table Command
+```
+CREATE TABLE cluster_points(
+  id INT PRIMARY KEY,
+  route TEXT,
+  direction_tag TEXT,
+  heading INT,
+  time TIMESTAMP,
+  is_clustered BOOLEAN,
+  location geography(POINT, 4326)
+);
+```
+
 
 Table: ttc_cluster_points
 
-- ID INT UNIQUE PRIMARY KEY
-- GEOM SRID 4326 (or not. maybe I UTM zone 17N) - EPSG:26917
-- ROUTE String
+- id INT UNIQUE PRIMARY KEY
+- geom SRID 4326 (or not. maybe I UTM zone 17N) - EPSG:26917
+- route String
 - direction_tag String
 - heading int
 - time time, (usually time of ingest). 
+- is_clustered boolean
