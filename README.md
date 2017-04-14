@@ -90,6 +90,12 @@ INSERT INTO cluster_points(route, direction_tag, heading, time, is_clustered, lo
 VALUES('60', 'up', 0, current_timestamp, false, ST_GeomFromText('POINT(-71.060316 48.432044)', 4326));
 ```
 
+#### SELECT ALL AS GEOJSON
+```
+SELECT (id, route, direction_tag, heading, time, ST_AsGeoJSON(location)) FROM cluster_points;
+```
+#### UPDATE into record by ID
+
 
 Table: ttc_cluster_points
 
