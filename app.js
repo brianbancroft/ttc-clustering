@@ -13,18 +13,30 @@ const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/
 const client = new pg.Client(connectionString)
 client.connect()
 
+function readRecords(route, time) {
+
+}
+
+function readRecord(id) {
+
+}
+function updateRecord(params) {
+
+}
+function insertRecord(params) {
+  client.query(`INSERT INTO cluster_points(route, direction_tag, heading, time, is_clustered, location)
+    VALUES('${params.route}, ${params.directionTag}, ${params.heading}, ${params.time}, ${params.isClustered}, ST_GeomFromText('POINT(${params.long} ${params.lat})', 4326));`)
+}
+
 function performRequest(callback) {
 
   var options = {
       uri: 'http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491951669267',
-      // qs: {
-      //     access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx' 
-      // },
       headers: {
           'User-Agent': 'Request-Promise'
       },
-      json: true // Automatically parses the JSON string in the response 
-  };
+      json: true
+  }
   
   rp(options)
       .then(function (payload) {
@@ -41,6 +53,10 @@ app.get('/', (req, res) => {
 
 app.get('/home', (req, res) => {
   res.render('index', { title: 'The Index Page!' })
+})
+
+app.get('/retrieve', (req, res) => {
+  res.render('index', { title: 'The retrieve page' })
 })
 
 app.get('/request', (req, res) => {

@@ -23,10 +23,7 @@ I intend the stack to be Node with Express or Koa, PostGres with PostGIS.
 
 I'm usually a rails dev, so making this happen will be tricky for me. It will be new. I'm always happy to get assistance where I can, but I may get cranky based on whatever technical problem I'm trying to solve. Don't worry, it's not you as you're a pretty awesome fellow.
 
-
-
 ### Additions:
-
 
 #### CRON
 Intent is to do further actions through cron jobs in Express:
