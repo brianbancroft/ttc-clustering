@@ -27,48 +27,8 @@ app.set('view engine', 'ejs')
 
 // ====== END FUTURE SCOPE ===========
 
-const pg = require('pg')
-const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/ttc_clustering_development'
+const dbMethods = require('./database/')
 
-const client = new pg.Client(connectionString)
-client.connect()
-
-
-let output
-
-// Returns all records for a given route on a specific day (for dataviz)
-function readRecords(params) {
-    return client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points WHERE route=${params.route};`)
-}
-
-// Returns all records within a specific distance
-function readRecordsWithinDistance(params) {
-  return client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points 
-  WHERE ST_DWithin(ST_GeomFromText('POINT(${params.long} ${params.lat})'), location, ${params.distance});`)
-}
-
-// Returns a record with a specific ID
-function readRecord(params) {
-  return client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points 
-  WHERE id=${params.id};`)
-}
-
-// Updates a record. Unsure of what to use. 
-function updateClusteredRecord(params) {
-  client.query(`UPDATE cluster_points
-    SET is_clustered = true
-    WHERE id=${params.id};`)
-}
-
-// Creates a new record based from geoData
-function insertRecord(params) {
-  console.log('====== NEW  QUERY ========')
-  const queryString = `INSERT INTO cluster_points(route, direction_tag, heading, is_clustered, location)
-    VALUES('${params.route}', '${params.directionTag}', ${params.heading}, ${params.isClustered}, ST_GeomFromText('POINT(${params.lon} ${params.lat})', 4326));`
-  console.log(queryString)
-  client.query(queryString)
-  console.log('===== end of query =======`')
-}
 
 function performRequest(callback) {
 
@@ -111,7 +71,7 @@ app.get('/request', (req, res) => {
     const currentTime = new Date()
 
     output.vehicle.forEach((vehicle) => {
-      insertRecord({
+      dbMethods.insertRecord({
         route: 60,
         directionTag: vehicle.dirTag,
         heading: vehicle.heading,
