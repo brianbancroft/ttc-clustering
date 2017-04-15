@@ -16,6 +16,8 @@ app.engine('vue', expressVue);
 app.set('view engine', 'vue');
 
 const dbMethods = require('./database/')
+var moment = require('moment')
+moment().format()
 
 
 function performRequest(callback) {
@@ -42,7 +44,7 @@ function addNewRecord(output) {
     console.log(Object.keys(output))
     // Obtains last time
     let lastTimeData = output.lastTime.time
-    const currentTime = new Date()
+    const currentTime =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
     output.vehicle.forEach((vehicle) => {
       dbMethods.insertRecord({

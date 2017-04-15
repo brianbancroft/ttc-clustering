@@ -1,9 +1,6 @@
 const pg = require('pg')
 const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/ttc_clustering_development'
 
-var moment = require('moment')
-moment().format()
-
 const client = new pg.Client(connectionString)
 client.connect()
 
@@ -35,8 +32,8 @@ module.exports = {
   // Creates a new record based from geoData
   insertRecord: (params) => {
     console.log('====== NEW  QUERY ========')
-    const queryString = `INSERT INTO cluster_points(route, direction_tag, heading, is_clustered, location)
-      VALUES('${params.route}', '${params.directionTag}', ${params.heading}, ${params.isClustered}, ST_GeomFromText('POINT(${params.lon} ${params.lat})', 4326));`
+    const queryString = `INSERT INTO cluster_points(route, direction_tag, heading, time, is_clustered, location)
+      VALUES('${params.route}', '${params.directionTag}', ${params.heading}, '${params.time}', ${params.isClustered}, ST_GeomFromText('POINT(${params.lon} ${params.lat})', 4326));`
     console.log(queryString)
     client.query(queryString)
     console.log('===== end of query =======`')
