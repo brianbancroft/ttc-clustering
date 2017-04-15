@@ -8,6 +8,10 @@ This app is being developed to prove the hypothesis that _"TTC Busses on the 60 
 
 I intend the stack to be Node with Express, PostGres with PostGIS. Pages to be rendered will be with Vue. Mapping to be done with leaflet, for now. 
 
+## My current roadblock
+
+Like everything JS, dealing with asynchronity is the largest challenge. Right now, I have a path `/test-extract` which needs to render the result of a database query. But in order to do that, actions need to be taken as the result of a callback.
+
 ## Stages
 
 - [x] Determine End Points of the TTC Real-Time Feed

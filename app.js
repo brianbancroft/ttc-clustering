@@ -3,13 +3,11 @@ const app = express()
 
 var rp = require('request-promise')
 const http = require('http')
-
 var expressVue = require('express-vue')
 app.set('views', __dirname + '/views')
 
 app.set('vue', {
     componentsDir: __dirname + '/views/components',
-
     defaultLayout: 'layout'
 });
 app.engine('vue', expressVue);
@@ -59,18 +57,6 @@ function addNewRecord (output) {
   }, this)
 }
 
-function extractRecords () {
-  dbReturn = dbMethods.readRecordsOnDateOnRoute({
-    route: '60',
-    month: '4',
-    day: '15'
-  })
-  console.log('===== DB RETURN ======')
-  console.log(dbReturn)
-  console.log('===== DB RTN END ======')
-
-}
-
 // ======= ROUTES ================
 
 app.get('/', (req, res, next) => {
@@ -92,14 +78,21 @@ app.get('/request', (req, res) => {
 
 app.get('/test-extract', (req, res) => {
   console.log('test extract call')
-  const results = extractRecords()
-  res.render('results', {
-    data: JSON.stringify(results),
-    vue: {
-      head: {
-        title: 'Sample Data Results'
+
+  dbMethods.readRecordsOnDateOnRoute({
+    route: '60',
+    month: '4',
+    day: '15'
+  }, (results) => {
+    console.log(results)
+    res.render('results', {
+      data: {foo: results},
+      vue: {
+        head: {
+          title: 'Sample Data Results for Route 60'
+        }
       }
-    }
+    })
   })
 })
 

@@ -9,7 +9,7 @@ module.exports = {
   readRecords: (params) => {
     client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points WHERE route=${params.route};`)
   },
-  readRecordsOnDateOnRoute: (params) => {
+  readRecordsOnDateOnRoute: (params, callback) => {
     let results = {
       type: 'FeatureCollection',
       features: []
@@ -52,7 +52,7 @@ module.exports = {
       console.log('===== RESULTS RETURN ======')
       console.log(results)
       console.log('===== RESULTS END ======')
-      return results
+      callback(results)
     });
   },
   // Returns all records within a specific distance
