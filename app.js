@@ -82,10 +82,6 @@ app.get('/', (req, res, next) => {
   });
 })
 
-app.get('/retrieve', (req, res) => {
-  res.render('index', { title: 'The retrieve page' })
-})
-
 app.get('/request', (req, res) => {
   performRequest(addNewRecord) 
 })
