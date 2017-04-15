@@ -39,7 +39,6 @@ function performRequest(callback) {
 
 function addNewRecord (output) {
   // res.render('bus',{ data: output} )
-  console.log(Object.keys(output))
   // Obtains last time
   let lastTimeData = output.lastTime.time
   const currentTime =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
@@ -77,14 +76,11 @@ app.get('/request', (req, res) => {
 })
 
 app.get('/test-extract', (req, res) => {
-  console.log('test extract call')
-
   dbMethods.readRecordsOnDateOnRoute({
     route: '60',
     month: '4',
     day: '15'
   }, (results) => {
-    console.log(results)
     res.render('results', {
       data: {foo: results},
       vue: {

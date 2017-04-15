@@ -49,9 +49,6 @@ module.exports = {
     });
 
     query.on('end', () => {
-      console.log('===== RESULTS RETURN ======')
-      console.log(results)
-      console.log('===== RESULTS END ======')
       callback(results)
     });
   },
@@ -76,11 +73,8 @@ module.exports = {
 
   // Creates a new record based from geoData
   insertRecord: (params) => {
-    console.log('====== NEW  QUERY ========')
     const queryString = `INSERT INTO cluster_points(route, direction_tag, heading, time, is_clustered, location)
       VALUES('${params.route}', '${params.directionTag}', ${params.heading}, '${params.time}', ${params.isClustered}, ST_GeomFromText('POINT(${params.lon} ${params.lat})', 4326));`
-    console.log(queryString)
     client.query(queryString)
-    console.log('===== end of query =======`')
   }
 }
