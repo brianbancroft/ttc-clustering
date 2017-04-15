@@ -91,10 +91,20 @@ INSERT INTO cluster_points(route, direction_tag, heading, time, is_clustered, lo
 VALUES('60', 'up', 0, current_timestamp, false, ST_GeomFromText('POINT(-79.526535 43.774467)', 4326));
 ```
 
-#### SELECT ALL AS GEOJSON
+#### SELECT ALL
 ```
 SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points;
 ```
+#### SELECT ALL ON DATE FOR ROUTE
+```
+SELECT (id, route, direction_tag, heading, time, is_clustered, ST_AsGeoJSON(location)) FROM cluster_points
+WHERE route='60'
+AND extract(month from time) = '4'
+AND extract(day from time) = '15'
+;
+```
+
+
 #### UPDATE into record by ID
 ```
 UPDATE cluster_points

@@ -9,7 +9,14 @@ module.exports = {
   readRecords: (params) => {
     return client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points WHERE route=${params.route};`)
   },
-
+  readRecordsOnDateOnRoute: (params) => {
+    return client.query(`SELECT (id, route, direction_tag, heading, time, is_clustered, ST_AsGeoJSON(location)) 
+      FROM cluster_points
+      WHERE route='${params.route}'
+      AND extract(month from time) = '${params.month}'
+      AND extract(day from time) = '${params.day}'
+    ;`)
+  },
   // Returns all records within a specific distance
   readRecordsWithinDistance: (params) => {
     return client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points 
