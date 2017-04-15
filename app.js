@@ -3,14 +3,7 @@ const app = express()
 
 var rp = require('request-promise')
 const http = require('http')
-var moment = require('moment')
-moment().format()
 
-
-// app.set('view engine', 'ejs')
-
-
-// ===== FUTURE SCOPE: MIGRATE FROM EJS TO VUE ====
 var expressVue = require('express-vue')
 app.set('views', __dirname + '/views')
 
@@ -21,8 +14,6 @@ app.set('vue', {
 });
 app.engine('vue', expressVue);
 app.set('view engine', 'vue');
-
-// ====== END FUTURE SCOPE ===========
 
 const dbMethods = require('./database/')
 
