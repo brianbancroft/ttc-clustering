@@ -67,9 +67,13 @@ https://www.npmjs.com/package/node-schedule
 There is a lovely documement that explains the process available to run all the REST queries for the Toronto Transit Commission's Next Vehicle Arrival System (NVAS). This is what I got: 
 
 
-### First request for a bus: http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60
+### First request for a bus: 
+[http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60]([http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60])
 
-### Subsequent requests for the same bus: http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=1491104874326
+### Subsequent requests for the same bus:
+ [http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=1491104874326](http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=1491104874326)
+
+--- 
 
 The difference between the two is that subsequent requests want you to place in the last time a request was made. 
 
