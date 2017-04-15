@@ -37,11 +37,11 @@ To get where I currently am with this, do the following from a terminal in Linux
 1. `git clone https://github.com/brianbancroft/ttc-clustering.git`
 2. `cd ttc-clustering && npm i`
 3. `psql`
-4. `CREATE DATABASE ttc_clustering_development`
+4. `CREATE DATABASE ttc_clustering_development;`
 5. `\q`
 6. `psql ttc_clustering_development`
-7. `CREATE EXTENSION POSTGIS`
-8. Do the following:
+7. `CREATE EXTENSION POSTGIS;`
+8. Create the cluster_points table:
 ```
 CREATE TABLE cluster_points(
   id SERIAL,
