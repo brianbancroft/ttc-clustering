@@ -7,23 +7,20 @@ var moment = require('moment')
 moment().format()
 
 
-app.set('view engine', 'ejs')
+// app.set('view engine', 'ejs')
 
 
 // ===== FUTURE SCOPE: MIGRATE FROM EJS TO VUE ====
-// var expressVue = require('express-vue')
-// app.set('views', __dirname + '/app/views')
- 
-// //Optional if you want to specify the components directory separate to your views, and/or specify a custom layout. 
-// app.set('vue', {
-//     //ComponentsDir is optional if you are storing your components in a different directory than your views 
-//     componentsDir: __dirname + '/components',
-//     //Default layout is optional it's a file and relative to the views path, it does not require a .vue extension. 
-//     //If you want a custom layout set this to the location of your layout.vue file. 
-//     defaultLayout: 'layout'
-// });
-// app.engine('vue', expressVue);
-// app.set('view engine', 'vue');
+var expressVue = require('express-vue')
+app.set('views', __dirname + '/views')
+
+app.set('vue', {
+    componentsDir: __dirname + '/views/components',
+
+    defaultLayout: 'layout'
+});
+app.engine('vue', expressVue);
+app.set('view engine', 'vue');
 
 // ====== END FUTURE SCOPE ===========
 
@@ -71,12 +68,18 @@ function addNewRecord(output) {
 
 // ======= ROUTES ================
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
-app.get('/home', (req, res) => {
-  res.render('index', { title: 'The Index Page!' })
+app.get('/', (req, res, next) => {
+  res.render('index', {
+    data : {
+      otherData: 'Something Else'
+    },
+    vue: {
+      head: {
+        title: 'Page Title',
+      },
+      components: ['siteheader', 'sitefooter']
+    }
+  });
 })
 
 app.get('/retrieve', (req, res) => {
