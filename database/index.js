@@ -7,15 +7,25 @@ client.connect()
 module.exports = {
   // Returns all records
   readRecords: (params) => {
-    return client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points WHERE route=${params.route};`)
+    client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points WHERE route=${params.route};`)
   },
   readRecordsOnDateOnRoute: (params) => {
-    return client.query(`SELECT (id, route, direction_tag, heading, time, is_clustered, ST_AsGeoJSON(location)) 
+    let results = []
+
+    const query = client.query(`SELECT (id, route, direction_tag, heading, time, is_clustered, ST_AsGeoJSON(location)) 
       FROM cluster_points
       WHERE route='${params.route}'
       AND extract(month from time) = '${params.month}'
       AND extract(day from time) = '${params.day}'
     ;`)
+    query.on('row', (row) => {
+      results.push(row);
+    });
+    // After all data is returned, close connection and return results
+    query.on('end', () => {
+      console.log(results)
+      // return results
+    });
   },
   // Returns all records within a specific distance
   readRecordsWithinDistance: (params) => {

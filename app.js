@@ -39,25 +39,34 @@ function performRequest(callback) {
       });
 }
 
-function addNewRecord(output) {
-    // res.render('bus',{ data: output} )
-    console.log(Object.keys(output))
-    // Obtains last time
-    let lastTimeData = output.lastTime.time
-    const currentTime =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+function addNewRecord (output) {
+  // res.render('bus',{ data: output} )
+  console.log(Object.keys(output))
+  // Obtains last time
+  let lastTimeData = output.lastTime.time
+  const currentTime =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
 
-    output.vehicle.forEach((vehicle) => {
-      dbMethods.insertRecord({
-        route: 60,
-        directionTag: vehicle.dirTag,
-        heading: vehicle.heading,
-        time: currentTime,
-        isClustered: false,
-        lon: vehicle.lon,
-        lat: vehicle.lat,
-      })
-    }, this);
-  }
+  output.vehicle.forEach((vehicle) => {
+    dbMethods.insertRecord({
+      route: 60,
+      directionTag: vehicle.dirTag,
+      heading: vehicle.heading,
+      time: currentTime,
+      isClustered: false,
+      lon: vehicle.lon,
+      lat: vehicle.lat,
+    })
+  }, this)
+}
+
+function extractRecords () {
+  dbReturn = dbMethods.readRecordsOnDateOnRoute({
+    route: '60',
+    month: '4',
+    day: '15'
+  })
+  console.log(dbReturn)
+}
 
 // ======= ROUTES ================
 
@@ -81,6 +90,7 @@ app.get('/request', (req, res) => {
 
 app.get('/test-extract', (req, res) => {
   console.log('test extract call')
+  extractRecords()
 })
 
 app.listen(3000, () => {
