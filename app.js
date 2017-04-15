@@ -49,21 +49,7 @@ function performRequest(callback) {
       });
 }
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
-app.get('/home', (req, res) => {
-  res.render('index', { title: 'The Index Page!' })
-})
-
-app.get('/retrieve', (req, res) => {
-  res.render('index', { title: 'The retrieve page' })
-})
-
-app.get('/request', (req, res) => {
-  // performRequest()
-  performRequest((output) => {
+function addNewRecord(output) {
     // res.render('bus',{ data: output} )
     console.log(Object.keys(output))
     // Obtains last time
@@ -81,7 +67,24 @@ app.get('/request', (req, res) => {
         lat: vehicle.lat,
       })
     }, this);
-  }) 
+  }
+
+// ======= ROUTES ================
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.get('/home', (req, res) => {
+  res.render('index', { title: 'The Index Page!' })
+})
+
+app.get('/retrieve', (req, res) => {
+  res.render('index', { title: 'The retrieve page' })
+})
+
+app.get('/request', (req, res) => {
+  performRequest(addNewRecord) 
 })
 
 app.listen(3000, () => {
