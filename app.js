@@ -79,6 +79,10 @@ app.get('/request', (req, res) => {
   performRequest(addNewRecord) 
 })
 
+app.get('/test-extract', (req, res) => {
+  console.log('test extract call')
+})
+
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!')
 })
