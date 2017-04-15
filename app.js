@@ -65,7 +65,10 @@ function extractRecords () {
     month: '4',
     day: '15'
   })
+  console.log('===== DB RETURN ======')
   console.log(dbReturn)
+  console.log('===== DB RTN END ======')
+
 }
 
 // ======= ROUTES ================
@@ -78,10 +81,9 @@ app.get('/', (req, res, next) => {
     vue: {
       head: {
         title: 'Page Title',
-      },
-      components: ['siteheader', 'sitefooter']
+      }
     }
-  });
+  })
 })
 
 app.get('/request', (req, res) => {
@@ -90,7 +92,15 @@ app.get('/request', (req, res) => {
 
 app.get('/test-extract', (req, res) => {
   console.log('test extract call')
-  extractRecords()
+  const results = extractRecords()
+  res.render('results', {
+    data: JSON.stringify(results),
+    vue: {
+      head: {
+        title: 'Sample Data Results'
+      }
+    }
+  })
 })
 
 app.listen(3000, () => {

@@ -1,7 +1,7 @@
 <template>
-<main>
-<h1>{{otherData}}</h1>
-</main>
+<div>
+<h1>Results Data!</h1>
+</div>
 </template>
 <script>
 export default {

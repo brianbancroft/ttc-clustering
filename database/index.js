@@ -10,21 +10,49 @@ module.exports = {
     client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points WHERE route=${params.route};`)
   },
   readRecordsOnDateOnRoute: (params) => {
-    let results = []
+    let results = {
+      type: 'FeatureCollection',
+      features: []
+    }
 
-    const query = client.query(`SELECT (id, route, direction_tag, heading, time, is_clustered, ST_AsGeoJSON(location)) 
+    const query = client.query(`SELECT (id, route, direction_tag, heading, time, is_clustered, ST_AsText(location)) 
       FROM cluster_points
       WHERE route='${params.route}'
       AND extract(month from time) = '${params.month}'
       AND extract(day from time) = '${params.day}'
     ;`)
     query.on('row', (row) => {
-      results.push(row);
+      const resultArr = ((row['row'].substring(1, (row['row'].length - 1))).split(','))
+
+      const resultCoords = resultArr[6].substring(7, resultArr[6].length - 2).split(' ')
+            
+      resultElement = {
+        type: 'feature', 
+        properties: {
+          id: resultArr[0],
+          route: resultArr[1],
+          directionTag: resultArr[2],
+          heading: resultArr[3],
+          dateTime: resultArr[4],
+          isClustered: resultArr[5] === 't' ? true : false
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [
+            resultCoords[0],
+            resultCoords[1]
+          ]
+        }
+      }
+      results.features.push(resultElement)
+
     });
-    // After all data is returned, close connection and return results
+
     query.on('end', () => {
+      console.log('===== RESULTS RETURN ======')
       console.log(results)
-      // return results
+      console.log('===== RESULTS END ======')
+      return results
     });
   },
   // Returns all records within a specific distance
