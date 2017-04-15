@@ -6,7 +6,7 @@ Recently, people close to me have observed some clustering issues with the TTC B
 
 This app is being developed to prove the hypothesis that _"TTC Busses on the 60 route have a tendency to cluster and cause service disruption at a systematic level_". 
 
-I intend the stack to be Node with Express or Koa, PostGres with PostGIS. 
+I intend the stack to be Node with Express, PostGres with PostGIS. Pages to be rendered will be with Vue. Mapping to be done with leaflet, for now. 
 
 ## Stages
 
@@ -27,33 +27,54 @@ I intend the stack to be Node with Express or Koa, PostGres with PostGIS.
 
 I'm usually a rails dev, so making this happen will be tricky for me. It will be new. I'm always happy to get assistance where I can, but I may get cranky based on whatever technical problem I'm trying to solve. Don't worry, it's not you as you're a pretty awesome fellow.
 
-### Additions:
+## Setup
+_This setup assumes that you understand at least a little about NodeJS, and have NPM and PostGRES 9.4 or later installed._
 
-#### CRON
+To get where I currently am with this, do the following from a terminal in Linux or OS X:
+1. `git clone https://github.com/brianbancroft/ttc-clustering.git`
+2. `cd ttc-clustering && npm i`
+3. `psql`
+4. `CREATE DATABASE ttc_clustering_development`
+5. `\q`
+6. `psql ttc_clustering_development`
+7. `CREATE EXTENSION POSTGIS`
+8. Do the following:
+```
+CREATE TABLE cluster_points(
+  id SERIAL,
+  route TEXT,
+  direction_tag TEXT,
+  heading INT,
+  time TIMESTAMP,
+  is_clustered BOOLEAN,
+  location geography(POINT, 4326)
+);
+```
+9. Finally you're set up: `npm start`
+
+Once here, you're going to be at the same stage where I am at the tip of the master branch. 
+
+## Additions:
+This might end up being a large project. As this is the case, there's a lot of To-do's that are happening. Here are some, and some tutorials I'll be running through to understand them better - when the time comes:
+
+### CRON - SERVER-SIDE TASKS AT CERTAIN TIMES
 Intent is to do further actions through cron jobs in Express:
 
 https://www.npmjs.com/package/node-schedule
 
-#### XML TO JSON
 
-https://github.com/Leonidas-from-XIV/node-xml2js
-
-#### HTTP GET
-
-https://nodejs.org/api/http.html#http_http_get_options_callback
+## Using TTC NVAS
+There is a lovely documement that explains the process available to run all the REST queries for the Toronto Transit Commission's Next Vehicle Arrival System (NVAS). This is what I got: 
 
 
+### First request for a bus: http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60
 
+### Subsequent requests for the same bus: http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=1491104874326
 
-
-### API Point
-
-First request: http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60
-Subsequent: http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=1491104874326
-
-t is obtained from the prior request. 
+The difference between the two is that subsequent requests want you to place in the last time a request was made. 
 
 ### API Reply:
+The following is an excerpt of the reply, around a single vehicle.
 
 ```
 { id: '1226',
@@ -66,11 +87,9 @@ t is obtained from the prior request.
   secsSinceReport: '9' }
 ```
 
-### SCHEMA AND SETUP
+### Sample Queries and Schema
 
-table: `ttc_clustering_development`
-First condition: `CREATE EXTENSION postgis;`
-
+The following are queries that are parameterized in this app. 
 
 #### Create Table Command
 ```
@@ -104,7 +123,6 @@ AND extract(day from time) = '15'
 ;
 ```
 
-
 #### UPDATE into record by ID
 ```
 UPDATE cluster_points
@@ -134,13 +152,16 @@ SELECT row_to_json(id, route, direction_tag, heading, time,is_clustered, ST_AsGe
 ```
 
 
+#### SCHEMA
 
-Table: ttc_cluster_points
+*Table: ttc_cluster_points*
 
-- id INT UNIQUE PRIMARY KEY
-- geom SRID 4326 (or not. maybe I UTM zone 17N) - EPSG:26917
-- route String
-- direction_tag String
-- heading int
-- time time, (usually time of ingest). 
-- is_clustered boolean
+Column Name | Data Type | Notes
+--- | --- | ---
+id | int | *
+location | geography | Point, EPSG 4326
+route | string |
+direction_tag | string |
+heading | integer | 
+time | time | 
+is_clustered | boolean | 
