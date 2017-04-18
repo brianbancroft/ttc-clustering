@@ -5,6 +5,7 @@ const client = new pg.Client(connectionString)
 client.connect()
 
 module.exports = {
+  
   // Returns all records
   readRecords: (params) => {
     client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points WHERE route=${params.route};`)
@@ -53,9 +54,10 @@ module.exports = {
     });
   },
   // Returns all records within a specific distance
-  readRecordsWithinDistance: (params) => {
+  readRecordsWithinDistance: (params, callback) => {
     return client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points 
-    WHERE ST_DWithin(ST_GeomFromText('POINT(${params.long} ${params.lat})'), location, ${params.distance});`)
+    WHERE route=${params.route}
+    AND ST_DWithin(ST_GeomFromText('POINT(${params.long} ${params.lat})'), location, ${params.distance});`)
   },
 
   // Returns a record with a specific ID

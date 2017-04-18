@@ -17,7 +17,6 @@ const dbMethods = require('./database/')
 var moment = require('moment')
 moment().format()
 
-
 function performRequest(callback) {
 
   var options = {
@@ -37,6 +36,26 @@ function performRequest(callback) {
       });
 }
 
+function isBusClose (params) {
+  // Expected params: lat, lon, rte
+  
+
+  const distance = 75 //75 metres
+  let closeBusses = []
+
+  dbMethods.readRecordsWithinDistance({
+    lat: params.lat,
+    lng: params.lng,
+    route: params.route,
+    distance: distance
+  }, (results) => {
+    closeBusses = results
+    // TODO: Update each record for clustered = true if it isn't already. 
+  })
+
+  return false
+}
+
 function addNewRecord (output) {
   // res.render('bus',{ data: output} )
   // Obtains last time
@@ -44,6 +63,9 @@ function addNewRecord (output) {
   const currentTime =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
 
   output.vehicle.forEach((vehicle) => {
+
+
+
     dbMethods.insertRecord({
       route: 60,
       directionTag: vehicle.dirTag,
