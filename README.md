@@ -16,10 +16,10 @@ Like everything JS, dealing with asynchronity is the largest challenge. Right no
 
 - [x] Determine End Points of the TTC Real-Time Feed
 - [x] Create back-end Framework that scrapes feed on command
-- [] Upload records to PostGIS
+- [x] Upload records to PostGIS
 - [] Ensure records being uploaded use a `ST_Within` for each point to determine clustering
 - [x] Retrieve points at certain day for certain route from local DB
-- [] Ensure GeoJSON-compliant formatting for query output at the _/test-extract_ route
+- [x] Ensure GeoJSON-compliant formatting for query output at the _/test-extract_ route
 - [] Create 'cron-job'type tasking which scrapes feed at certain times of day automatically
 - [] Setup Admin Panel which sets the tasks
 - [] Determine whether systematic clustering is ongoing
