@@ -9,9 +9,9 @@ app.set('views', __dirname + '/views')
 app.set('vue', {
     componentsDir: __dirname + '/views/components',
     defaultLayout: 'layout'
-});
-app.engine('vue', expressVue);
-app.set('view engine', 'vue');
+})
+app.engine('vue', expressVue)
+app.set('view engine', 'vue')
 
 const dbMethods = require('./database/')
 var moment = require('moment')
@@ -37,9 +37,6 @@ function performRequest(callback) {
 }
 
 function isBusClose (params) {
-  // Expected params: lat, lon, rte
-  console.log(`lat: ${params.lat}, lon: ${params.lon}`)  
-
   const distance = 75 //75 metres
   let busIsClose = false
 
@@ -51,21 +48,15 @@ function isBusClose (params) {
     route: params.route,
     distance: distance
   }, (results) => {
-    console.log(`results: ${results.length}`)
     if (results.length > 0) {
-      console.log('results.length greater than zero')
       busIsClose = true
       results.map((result) => {
-        console.log('bew result being mapped')
-        console.log(result)
         const row = result.row.substring(
           1,
           (result.row.length - 1)
         ).split(',')
         // TODO: Further query Restrictions
-        console.log(`Row[5]: ${row[5]}`)
         if (row[5] === 'f') {
-          console.log('about to call update clustered method')
           dbMethods.updateClusteredRecord({
             id: Number(row[0])
           })
@@ -84,7 +75,6 @@ function addNewRecord (output) {
   const currentTime =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
 
   output.vehicle.forEach((vehicle) => {
-    console.log('here\'s a vehicle!')
     dbMethods.insertRecord({
       route: '60',
       directionTag: vehicle.dirTag,

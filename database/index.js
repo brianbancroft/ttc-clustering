@@ -47,11 +47,11 @@ module.exports = {
       }
       results.features.push(resultElement)
 
-    });
+    })
 
     query.on('end', () => {
       callback(results)
-    });
+    })
   },
   // Returns all records within a specific distance
   readRecordsWithinDistance: (params, callback) => {
