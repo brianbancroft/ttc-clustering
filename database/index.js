@@ -74,6 +74,9 @@ module.exports = {
     client.query(`UPDATE cluster_points
       SET is_clustered = true
       WHERE id=${params.id};`)
+      .then((res) => {
+        console.log(`call finished. result: ${res}`)
+      })
   },
 
   // Creates a new record based from geoData

@@ -51,16 +51,24 @@ function isBusClose (params) {
     route: params.route,
     distance: distance
   }, (results) => {
+    console.log(`results: ${results.length}`)
     if (results.length > 0) {
+      console.log('results.length greater than zero')
       busIsClose = true
       results.map((result) => {
+        console.log('bew result being mapped')
+        console.log(result)
         const row = result.row.substring(
           1,
           (result.row.length - 1)
         ).split(',')
         // TODO: Further query Restrictions
-        if (row[5] === 't') {
-
+        console.log(`Row[5]: ${row[5]}`)
+        if (row[5] === 'f') {
+          console.log('about to call update clustered method')
+          dbMethods.updateClusteredRecord({
+            id: Number(row[0])
+          })
         }
       })
     }
