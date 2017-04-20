@@ -41,7 +41,9 @@ function isBusClose (params) {
   console.log(`lat: ${params.lat}, lon: ${params.lon}`)  
 
   const distance = 75 //75 metres
-  let closeBusses = []
+  let busIsClose = false
+
+
 
   dbMethods.readRecordsWithinDistance({
     lat: params.lat,
@@ -49,14 +51,22 @@ function isBusClose (params) {
     route: params.route,
     distance: distance
   }, (results) => {
-    console.log('callback called')
-    console.warn('======== BUS RESULTS FOR CLUSTERED BUSSES =============')
-    console.log(results)
-    console.warn('================ END CLUSTERED RESULTS ================')
-    // TODO: Update each record for clustered = true if it isn't already. 
+    if (results.length > 0) {
+      busIsClose = true
+      results.map((result) => {
+        const row = result.row.substring(
+          1,
+          (result.row.length - 1)
+        ).split(',')
+        // TODO: Further query Restrictions
+        if (row[5] === 't') {
+
+        }
+      })
+    }
   })
 
-  return false
+  return busIsClose
 }
 
 function addNewRecord (output) {

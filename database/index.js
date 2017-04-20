@@ -55,7 +55,7 @@ module.exports = {
   },
   // Returns all records within a specific distance
   readRecordsWithinDistance: (params, callback) => {
-    client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points 
+    client.query(`SELECT (id, route, direction_tag, heading, time,is_clustered) FROM cluster_points 
     WHERE route='${params.route}'
     AND ST_DWithin(ST_GeomFromText('POINT(${params.lon} ${params.lat})'), location, ${params.distance});`)
     .then((res) => {
