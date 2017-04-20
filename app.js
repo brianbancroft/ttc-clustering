@@ -22,7 +22,7 @@ function performRequest(callback) {
   var options = {
       uri: 'http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491951669267',
       headers: {
-          'User-Agent': 'Request-Promise'
+        'User-Agent': 'Request-Promise'
       },
       json: true
   }
@@ -38,18 +38,21 @@ function performRequest(callback) {
 
 function isBusClose (params) {
   // Expected params: lat, lon, rte
-  
+  console.log(`lat: ${params.lat}, lon: ${params.lon}`)  
 
   const distance = 75 //75 metres
   let closeBusses = []
 
   dbMethods.readRecordsWithinDistance({
     lat: params.lat,
-    lng: params.lng,
+    lon: params.lon,
     route: params.route,
     distance: distance
   }, (results) => {
-    closeBusses = results
+    console.log('callback called')
+    console.warn('======== BUS RESULTS FOR CLUSTERED BUSSES =============')
+    console.log(results)
+    console.warn('================ END CLUSTERED RESULTS ================')
     // TODO: Update each record for clustered = true if it isn't already. 
   })
 
@@ -63,15 +66,17 @@ function addNewRecord (output) {
   const currentTime =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
 
   output.vehicle.forEach((vehicle) => {
-
-
-
+    console.log('here\'s a vehicle!')
     dbMethods.insertRecord({
-      route: 60,
+      route: '60',
       directionTag: vehicle.dirTag,
       heading: vehicle.heading,
       time: currentTime,
-      isClustered: false,
+      isClustered: isBusClose({
+        lon: vehicle.lon,
+        lat: vehicle.lat,
+        route: '60'
+      }),
       lon: vehicle.lon,
       lat: vehicle.lat,
     })
