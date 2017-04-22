@@ -1,6 +1,6 @@
 <template>
 <main>
-<h1>{{otherData}}</h1>
+<h4>{{otherData}}</h4>
 </main>
 </template>
 <script>

@@ -11,6 +11,14 @@ app.set('vue', {
     componentsDir: __dirname + '/views/components',
     defaultLayout: 'layout'
 })
+app.set('vue', {
+    //ComponentsDir is optional if you are storing your components in a different directory than your views 
+    componentsDir: __dirname + '/views/components',
+    //Default layout is optional it's a file and relative to the views path, it does not require a .vue extension. 
+    //If you want a custom layout set this to the location of your layout.vue file. 
+    defaultLayout: 'layout'
+});
+
 app.engine('vue', expressVue)
 app.set('view engine', 'vue')
 
@@ -101,7 +109,7 @@ function addNewRecord (output) {
 app.get('/', (req, res, next) => {
   res.render('index', {
     data : {
-      otherData: 'Something Else'
+      otherData: 'Home Page'
     },
     vue: {
       head: {
