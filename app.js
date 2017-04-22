@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 
+const cors = require('express-cors')
 var rp = require('request-promise')
 const http = require('http')
 var expressVue = require('express-vue')
@@ -12,6 +13,10 @@ app.set('vue', {
 })
 app.engine('vue', expressVue)
 app.set('view engine', 'vue')
+
+app.use(cors({
+  allowedOrigins: ['*', 'localhost:5000', 'localhost', '127.0.0.1']
+}))
 
 const dbMethods = require('./database/')
 var moment = require('moment')
