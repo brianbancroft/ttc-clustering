@@ -123,12 +123,14 @@ app.get('/panel', (req, res) => {
   })
 })
 
-app.get('/test-extract', (req, res) => {
+app.get('/sample-data', (req, res) => {
+  console.log('sample data route called')
   dbMethods.readRecordsOnDateOnRoute({
     route: '60',
     month: '4',
     day: '15'
   }, (results) => {
+    console.log('sample data success')
     res.write(JSON.stringify(results))
   })
 })
