@@ -129,14 +129,7 @@ app.get('/test-extract', (req, res) => {
     month: '4',
     day: '15'
   }, (results) => {
-    res.render('results', {
-      data: {foo: results},
-      vue: {
-        head: {
-          title: 'Sample Data Results for Route 60'
-        }
-      }
-    })
+    res.write(JSON.stringify(results))
   })
 })
 

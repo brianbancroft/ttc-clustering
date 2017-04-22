@@ -28,20 +28,20 @@ module.exports = {
       const resultCoords = resultArr[6].substring(7, resultArr[6].length - 2).split(' ')
             
       resultElement = {
-        type: 'feature', 
+        type: 'Feature', 
         properties: {
-          id: resultArr[0],
-          route: resultArr[1],
+          id: Number(resultArr[0]),
+          route: Number(resultArr[1]),
           directionTag: resultArr[2],
-          heading: resultArr[3],
+          heading: Number(resultArr[3]),
           dateTime: resultArr[4],
           isClustered: resultArr[5] === 't' ? true : false
         },
         geometry: {
           type: 'Point',
           coordinates: [
-            resultCoords[0],
-            resultCoords[1]
+            Number(resultCoords[0]),
+            Number(resultCoords[1])
           ]
         }
       }
