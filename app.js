@@ -110,6 +110,19 @@ app.get('/request', (req, res) => {
   performRequest(addNewRecord) 
 })
 
+app.get('/panel', (req, res) => {
+  res.render('adminPanel', {
+    data : {
+      busRoutes: [60, 1,2,3,4,5]
+    },
+    vue: {
+      head: {
+        title: 'Page Title',
+      }
+    }
+  })
+})
+
 app.get('/test-extract', (req, res) => {
   dbMethods.readRecordsOnDateOnRoute({
     route: '60',
@@ -126,6 +139,13 @@ app.get('/test-extract', (req, res) => {
     })
   })
 })
+
+// OTHER ROUTES
+/*
+1. Admin Panel
+2. Set Job
+3. Obtain all data on specific date for Specific Route
+*/
 
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!')

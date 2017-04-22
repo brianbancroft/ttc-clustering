@@ -20,8 +20,11 @@ Like everything JS, dealing with asynchronity is the largest challenge. Right no
 - [x] Ensure records being uploaded use a `ST_Within` for each point to determine clustering
 - [x] Retrieve points at certain day for certain route from local DB
 - [x] Ensure GeoJSON-compliant formatting for query output at the _/test-extract_ route
+- [] Strip all results whose `predictable` tag is false
 - [] Create 'cron-job'type tasking which scrapes feed at certain times of day automatically
 - [] Setup Admin Panel which sets the tasks
+- [] Modify Admin Panel to control cron jobs
+- [] Parameterize Routes. 
 - [] Determine whether systematic clustering is ongoing (through prodding around)
 - [] Create dataviz
 - [] Create separate front-end app to be hosted via GH pages
@@ -79,7 +82,7 @@ There is a lovely documement that explains the process available to run all the 
 [http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60]([http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60])
 
 ### Subsequent requests for the same bus:
- [http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=1491104874326](http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60&t=1491104874326)
+ [http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491104874326](http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491104874326)
 
 --- 
 
@@ -177,3 +180,15 @@ direction_tag | string |
 heading | integer | 
 time | time | 
 is_clustered | boolean | 
+
+
+#### SAMPLE HEADINGS
+
+Something I'm noticing, at least with route 60 is that there is little correlation between the route tag parameters from an API call and their associated heading - something I hoped would be clearer.
+
+bus tag | heading 
+--- | ---
+D | 74
+C | 73
+D | 272
+C | 274
