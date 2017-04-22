@@ -136,7 +136,8 @@ app.get('/sample-data', (req, res) => {
     day: '15'
   }, (results) => {
     console.log('sample data success')
-    res.write(JSON.stringify(results))
+    // res.write(JSON.stringify(results))
+    res.write(JSON.stringify({foo: 'bar'}))
   })
 })
 
