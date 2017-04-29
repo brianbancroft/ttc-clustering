@@ -1,19 +1,19 @@
 const express = require('express')
 const app = express()
 
-const rp = require('request-promise')
+
+const cors = require('express-cors')
+var rp = require('request-promise')
 const http = require('http')
 var expressVue = require('express-vue')
 app.set('views', __dirname + '/views')
 
 const turf = require('@turf/turf')
 
-// app.engine('vue', expressVue)
-// app.set('vue', {
-//     componentsDir: __dirname + '/views/components',
-//     defaultLayout: 'layout'
-// })
 
+app.use(cors({
+  allowedOrigins: '*'
+}))
 
 const dbMethods = require('./database/')
 var moment = require('moment')
@@ -98,7 +98,7 @@ function addNewRecord (output) {
 app.get('/', (req, res, next) => {
   res.render('index', {
     data : {
-      otherData: 'Something Else'
+      otherData: 'Home Page'
     },
     vue: {
       head: {
@@ -137,16 +137,9 @@ app.get('/sample', (req, res) => {
     month: '4',
     day: '15'
   }, (results) => {
-    res.write(JSON.stringify(results))
+    res.write(JSON.stringify({foo: 'bar'}))
   })
 })
-
-// OTHER ROUTES
-/*
-1. Admin Panel
-2. Set Job
-3. Obtain all data on specific date for Specific Route
-*/
 
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!')

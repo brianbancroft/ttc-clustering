@@ -22,13 +22,24 @@ Like everything JS, dealing with asynchronity is the largest challenge. Right no
 - [x] Ensure GeoJSON-compliant formatting for query output at the _/test-extract_ route
 - [] Strip all results whose `predictable` tag is false
 - [] Create 'cron-job'type tasking which scrapes feed at certain times of day automatically
+- [] Create 'start' route for cron job
+- [] Create 'stop' route for cron job
 - [] Setup Admin Panel which sets the tasks
+<<<<<<< HEAD
 - [] Modify Admin Panel to control cron job
 - [] Parameterize Routes.
 - [] Use TurfJS instead of PostGIS to do spatial queries to minimize DB Calls
 - [] Create bulk update method
 - [] Remove string interpoltation in DB calls
+=======
+- [] Modify Admin Panel to control cron jobs
+- [] Parameterize route for obtaining call.
+- [] Create a users table
+- [] Create a bcrypt-style login for
+- [] Create an API EP which sets the settings of observing data
+>>>>>>> bb4df084594eafee4ec1380f34ecb43684638343
 - [] Determine whether systematic clustering is ongoing (through prodding around)
+- [] Create separate map app which can view sample endpoint
 - [] Create dataviz
 - [] Create separate front-end app to be hosted via GH pages
 - [] Rebuild from mobile-first design
@@ -195,3 +206,6 @@ D | 74
 C | 73
 D | 272
 C | 274
+
+On further inspection, it appears that the bus tag has three position. For `60_1_60C`, if you split it by underscore `foo.split('_') => [60,1,60c]`
+
