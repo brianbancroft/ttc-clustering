@@ -1,17 +1,19 @@
 const express = require('express')
 const app = express()
 
-var rp = require('request-promise')
+const rp = require('request-promise')
 const http = require('http')
 var expressVue = require('express-vue')
 app.set('views', __dirname + '/views')
 
-app.set('vue', {
-    componentsDir: __dirname + '/views/components',
-    defaultLayout: 'layout'
-})
-app.engine('vue', expressVue)
-app.set('view engine', 'vue')
+const turf = require('@turf/turf')
+
+// app.engine('vue', expressVue)
+// app.set('vue', {
+//     componentsDir: __dirname + '/views/components',
+//     defaultLayout: 'layout'
+// })
+
 
 const dbMethods = require('./database/')
 var moment = require('moment')
@@ -123,7 +125,13 @@ app.get('/panel', (req, res) => {
   })
 })
 
-app.get('/test-extract', (req, res) => {
+app.get('/turftest', (req, res) => {
+  const point1 = turf.point([-73.123, 40.1234])
+
+  console.log(point1)
+})
+
+app.get('/sample', (req, res) => {
   dbMethods.readRecordsOnDateOnRoute({
     route: '60',
     month: '4',

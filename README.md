@@ -23,8 +23,11 @@ Like everything JS, dealing with asynchronity is the largest challenge. Right no
 - [] Strip all results whose `predictable` tag is false
 - [] Create 'cron-job'type tasking which scrapes feed at certain times of day automatically
 - [] Setup Admin Panel which sets the tasks
-- [] Modify Admin Panel to control cron jobs
-- [] Parameterize Routes. 
+- [] Modify Admin Panel to control cron job
+- [] Parameterize Routes.
+- [] Use TurfJS instead of PostGIS to do spatial queries to minimize DB Calls
+- [] Create bulk update method
+- [] Remove string interpoltation in DB calls
 - [] Determine whether systematic clustering is ongoing (through prodding around)
 - [] Create dataviz
 - [] Create separate front-end app to be hosted via GH pages

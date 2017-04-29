@@ -7,6 +7,7 @@
   "author": "Brian Bancroft <hello@brianbancroft.ca>",
   "license": "MIT",
   "dependencies": {
+    "@turf/turf": "^4.1.0",
     "ejs": "^2.5.6",
     "express": "^4.15.2",
     "express-vue": "^3.9.11",
