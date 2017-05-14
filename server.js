@@ -24,11 +24,6 @@ sequelize
   })
 // Models
 
-/*FUTURE MIGRATION
-up: function (queryInterface, Sequelize) {
-  return queryInterface.sequelize.query('CREATE EXTENSION postgis;')
-}
-*/
 
 
 // App
