@@ -24,6 +24,13 @@ sequelize
   })
 // Models
 
+/*FUTURE MIGRATION
+up: function (queryInterface, Sequelize) {
+  return queryInterface.sequelize.query('CREATE EXTENSION postgis;')
+}
+*/
+
+
 // App
 const app = require('./app')
 app.set('port', process.env.PORT || 3000)
