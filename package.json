@@ -8,7 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "@turf/turf": "^4.1.0",
-    "dot-env": "^0.0.1",
+    "dotenv": "^4.0.0",
     "express": "^4.15.2",
     "http": "0.0.0",
     "moment": "^2.18.1",
@@ -18,6 +18,6 @@
     "request-promise": "^4.2.0"
   },
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon server.js"
   }
 }

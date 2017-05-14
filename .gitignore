@@ -47,3 +47,6 @@ jspm_packages
 .yarn-integrity
 
 samplekoaapp.js
+
+# Configuration file containing secrets
+.env
