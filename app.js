@@ -99,11 +99,6 @@ app.get('/', (req, res, next) => {
   res.render('index', {
     data : {
       otherData: 'Home Page'
-    },
-    vue: {
-      head: {
-        title: 'Page Title',
-      }
     }
   })
 })
@@ -116,11 +111,6 @@ app.get('/panel', (req, res) => {
   res.render('adminPanel', {
     data : {
       busRoutes: [60, 1,2,3,4,5]
-    },
-    vue: {
-      head: {
-        title: 'Page Title',
-      }
     }
   })
 })

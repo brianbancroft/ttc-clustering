@@ -8,10 +8,12 @@
   "license": "MIT",
   "dependencies": {
     "@turf/turf": "^4.1.0",
+    "dot-env": "^0.0.1",
     "express": "^4.15.2",
     "http": "0.0.0",
     "moment": "^2.18.1",
     "pg": "^6.1.5",
+    "pug": "^2.0.0-rc.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.0"
   },
