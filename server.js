@@ -1,8 +1,5 @@
 require('dotenv').config({ path: 'variables.env' })
 
-// Database connection parameters
-
-
 // Models
 
 
