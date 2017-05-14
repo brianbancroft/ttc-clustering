@@ -1,7 +1,5 @@
-require('dotenv').config({ path: 'variables.env' })
-
-// Models
-
+// Imports environment variables from .env file
+require('dotenv').config({ path: '.env' })
 
 // App
 const app = require('./app')

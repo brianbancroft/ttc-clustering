@@ -4,34 +4,19 @@ const app = express()
 var rp = require('request-promise')
 const http = require('http')
 
+// Template engine setup
 app.set('views', __dirname + '/views')
 app.set('view engine', 'pug')
 
-const turf = require('@turf/turf')
+// Middleware
+// const turf = require('@turf/turf')
+// var moment = require('moment')
+// moment().format()
 
 const dbMethods = require('./database/')
-var moment = require('moment')
-moment().format()
 const routes = require('./routes/index')
 
-// function performRequest(callback) {
 
-//   var options = {
-//       uri: 'http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491951669267',
-//       headers: {
-//         'User-Agent': 'Request-Promise'
-//       },
-//       json: true
-//   }
-  
-//   rp(options)
-//       .then(function (payload) {
-//           callback(payload)
-//       })
-//       .catch(function (err) {
-//           console.log(err) 
-//       });
-// }
 
 // function isBusClose (params) {
 //   const distance = 75 //75 metres

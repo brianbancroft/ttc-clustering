@@ -1,15 +1,13 @@
 const express = require('express')
 const router = express.Router()
 // Controller dependencies go here
-const busController = require('../controllers/busRecordController')
-const homePageController = require('..//controllers/homePageController')
+const BusController = require('../controllers/busRecordController')
+const HomePageController = require('..//controllers/homePageController')
 const { catchErrors } = require('../handlers/errorHandlers')
 
-router.get('/', homePageController.homePage)
+router.get('/', HomePageController.homePage)
 
-// app.get('/request', (req, res) => {
-//   performRequest(addNewRecord) 
-// })
+router.get('/request', BusController.ingestBusData)
 
 // app.get('/panel', (req, res) => {
 //   res.render('adminPanel', {
