@@ -14,6 +14,7 @@ var moment = require('moment')
 moment().format()
 const routes = require('./routes/index');
 
+require('dotenv').config({ path: 'variables.env' });
 
 
 // function performRequest(callback) {
