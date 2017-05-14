@@ -1,19 +1,13 @@
 const express = require('express')
 const app = express()
 
-
-const cors = require('express-cors')
 var rp = require('request-promise')
 const http = require('http')
-var expressVue = require('express-vue')
+
 app.set('views', __dirname + '/views')
+app.set('view engine', 'pug')
 
 const turf = require('@turf/turf')
-
-
-app.use(cors({
-  allowedOrigins: '*'
-}))
 
 const dbMethods = require('./database/')
 var moment = require('moment')
