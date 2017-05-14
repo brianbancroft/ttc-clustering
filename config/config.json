@@ -9,17 +9,18 @@
     "dialect": "postgres"
   },
   "test": {
-    "username": "update me",
-    "password": "update me",
-    "database": "update_me",
-    "host": "update me",
-    "dialect": "update me"
+    "username": "brianbancroft",
+    "password": "",
+    "database": "ttcclusters_test",
+    "host": "127.0.0.1",
+    "port": "5432",
+    "dialect": "postgres"
   },
   "production": {
-    "username": "update me",
-    "password": "update me",
-    "database": "update me",
-    "host": "update me",
-    "dialect": "update me"
+    "username": "process.env.DB_USER",
+    "password": "process.env.DB_PASSWORD",
+    "database": "process.env.DB_NAME",
+    "host": "process.env.HOST",
+    "dialect": "postgres"
   }
 }
