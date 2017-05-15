@@ -23,8 +23,7 @@ sequelize
     console.error(`🚫 Bad connection 🚫 -> ${err}`)
   })
 // Models
-
-
+require('./models/BusLocations')
 
 // App
 const app = require('./app')
