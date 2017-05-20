@@ -12,8 +12,8 @@ app.set('view engine', 'pug')
 
 // ===== MIDDLEWARE =====
 const turf = require('@turf/turf')
-var moment = require('moment')
-moment().format()
+// var moment = require('moment')
+// moment().format()
 
 // Enforces ORM in app
 Sequelize = require('sequelize')
@@ -77,9 +77,10 @@ BusRecordController.ingestBusData = (req, res, next) => {
   NextVehicleArrivalSystem.request()
     .then((data) => {
       // const time = new Date().toISOString()
-      // const test = GeoJSONConversion.setupBackgroundData(data.vehicle)
-      // TODO: 1) Get time, 2) Get Clustered Boolean Value
-      data.vehicle.map((bus) => BusLocation.create(BusLocationSetup.singleInstance(bus)))
+      
+      // gathers all points for clustering comparasion
+      const refGeoJSON = GeoJSONConversion.setupBackgroundData(data.vehicle)
+      data.vehicle.map((bus) => BusLocation.create(BusLocationSetup.singleInstance(bus, refGeoJSON)))
     })
     .then(() => {
       res.end('Sucess: Data Ingested')
@@ -103,7 +104,7 @@ NextVehicleArrivalSystem.request = () => rp({
 
 const GeoJSONConversion = {}
 
-GeoJSONConversion.setupBackgroundData = (data) => {
+GeoJSONConversion.setupBackgroundData = data => {
   return {
     type: 'FeatureCollection',
     features: data.map(element => {
@@ -111,24 +112,38 @@ GeoJSONConversion.setupBackgroundData = (data) => {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [Number(data.lon), Number(data.lat)]
+          coordinates: [Number(element.lon), Number(element.lat)]
         },
         properties: {
-          id: Number(data.id)
+          id: Number(element.id)
         }
       }
     })
   }
 }
+GeoJSONConversion.setupSinglePoint = (bus) => turf.point([Number(bus.lon), Number(bus.lat)])
 
-const TurfSetup = {}
+const GeoAnalysis = {}
 
-TurfSetup.getSinglePoint = (bus) => turf.point([Number(bus.lon), Number(bus.lat)])
+
+GeoAnalysis.BusCountWithin = (sourcePoints, comparePoint, radiusInMeters) => { 
+  console.log(comparePoint)
+  console.log('attempting to buffer')
+  const buffer = turf.buffer(comparePoint, radiusInMeters / 1000, 'kilometers')
+  console.log(JSON.stringify(buffer))
+  console.log('bus count within search started') 
+  const result = turf.within(JSON.stringify(comparePoints), buffer)
+  console.log('method complete')
+  return result
+}
+
 
 const BusLocationSetup = {}
 
 // TODO: 1) Get time, 2) Get Clustered Boolean Value
-BusLocationSetup.singleInstance = (bus) => {
+BusLocationSetup.singleInstance = (bus, refGeoJSON) => {
+  console.log('Number of busses within: ', GeoAnalysis.BusCountWithin(refGeoJSON, GeoJSONConversion.setupSinglePoint(bus), 300))
+
   return {
     route: Number(bus.routeTag),
     // time: time, 
