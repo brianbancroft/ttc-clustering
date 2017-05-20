@@ -16,9 +16,9 @@ app.set('views', __dirname + '/views')
 app.set('view engine', 'pug')
 
 // Middleware
-// const turf = require('@turf/turf')
-// var moment = require('moment')
-// moment().format()
+const turf = require('@turf/turf')
+var moment = require('moment')
+moment().format()
 
 const dbMethods = require('./database/')
 // const routes = require('./routes/index')
@@ -110,6 +110,52 @@ BusRecordController.ingestBusData = (req, res, next) => {
 //   })
 // })
 
+
+// *----- SAMPLE READ ALL RECORDS CALL -----*
+// module.exports.readRecordsOnDateOnRoute = (params, callback) => {
+//   let results = {
+//     type: 'FeatureCollection',
+//     features: []
+//   }
+
+//   const query = client.query(`SELECT (id, route, direction_tag, heading, time, is_clustered, ST_AsText(location)) 
+//     FROM cluster_points
+//     WHERE route='${params.route}'
+//     AND extract(month from time) = '${params.month}'
+//     AND extract(day from time) = '${params.day}'
+//   ;`)
+//   query.on('row', (row) => {
+//     const resultArr = ((row['row'].substring(1, (row['row'].length - 1))).split(','))
+
+//     const resultCoords = resultArr[6].substring(7, resultArr[6].length - 2).split(' ')
+          
+//     resultElement = {
+//       type: 'Feature', 
+//       properties: {
+//         id: Number(resultArr[0]),
+//         route: Number(resultArr[1]),
+//         directionTag: resultArr[2],
+//         heading: Number(resultArr[3]),
+//         dateTime: resultArr[4],
+//         isClustered: resultArr[5] === 't' ? true : false
+//       },
+//       geometry: {
+//         type: 'Point',
+//         coordinates: [
+//           Number(resultCoords[0]),
+//           Number(resultCoords[1])
+//         ]
+//       }
+//     }
+//     results.features.push(resultElement)
+
+//   })
+
+//   query.on('end', () => {
+//     callback(results)
+//   })
+// }
+// * ----- END SAMPLE CALL ----- * 
 
 // ====== MODULES =====
 
