@@ -32,7 +32,7 @@ Like everything JS, dealing with asynchronity is the largest challenge. Right no
 - [ ] Use TurfJS instead of PostGIS to do spatial queries to minimize DB Calls
 - [ ] Create bulk update method
 - [ ] Remove string interpoltation in DB calls
-- [ ] Parameterize route for obtaining call.
+ - [ ] Parameterize route for obtaining call.
 - [ ] Create a users table
 - [ ] Use OAuth to handle login
 - [ ] Create an API EP which sets the settings of observing data
