@@ -61,7 +61,7 @@ const BusLocation = sequelize.define('BusLocation', {
 
 // ===== CONTROLLERS =====
 
-const HomePageController
+const HomePageController = {}
 
 HomePageController.homePage = (req, res) => {
   res.render('index', {
@@ -71,17 +71,15 @@ HomePageController.homePage = (req, res) => {
   })
 }
 
-const BusRecordController
+const BusRecordController = {}
 
 BusRecordController.ingestBusData = (req, res, next) => {
   NextVehicleArrivalSystem.request()
     .then((data) => {
       // const time = new Date().toISOString()
-
+      const test = GeoJSONConversion.setupBackgroundData(data.vehicle)
       data.vehicle.map((bus) => {
         // TODO 1) Get time, 2) Get Clustered
-        console.log(bus)
-        console.log(data.vehicle)
         // BusLocation.create({
         //   route: Number(bus.routeTag),
         //   // time: time, 
@@ -103,7 +101,7 @@ BusRecordController.ingestBusData = (req, res, next) => {
 
 // ====== MODULES =====
 
-const NextVehicleArrivalSystem
+const NextVehicleArrivalSystem = {}
 
 NextVehicleArrivalSystem.request = () => rp({
   uri: 'http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491951669267',
@@ -113,7 +111,7 @@ NextVehicleArrivalSystem.request = () => rp({
   json: true
 })
 
-const GeoJSONConversion
+const GeoJSONConversion = {}
 
 GeoJSONConversion.setupBackgroundData = (data) => {
   return {
@@ -133,7 +131,7 @@ GeoJSONConversion.setupBackgroundData = (data) => {
   }
 }
 
-const TurfSetup
+const TurfSetup = {}
 
 TurfSetup.getSinglePoint = (bus) => turf.point([Number(bus.lon), Number(bus.lat)])
 
