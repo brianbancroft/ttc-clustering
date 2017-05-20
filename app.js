@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
+const router = express.Router()
 
 Sequelize = require('sequelize')
 // Imports environment variables from .env file
@@ -28,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // ===== DATABASE =====
 
-Const sequelize = new Sequelize('ttcclusters_development', /*user*/'brianbancroft', /*pass*/'', {
+const sequelize = new Sequelize('ttcclusters_development', /*user*/'brianbancroft', /*pass*/'', {
   host: 'localhost',
   dialect: 'postgres',
 
@@ -66,7 +67,7 @@ const BusLocation = (sequelize, DataTypes) => {
 
 // ===== CONTROLLERS =====
 
-const HomePageController
+const HomePageController = {}
 
 HomePageController.homePage = (req, res) => {
   res.render('index', {
@@ -76,7 +77,16 @@ HomePageController.homePage = (req, res) => {
   })
 }
 
-const BusRecordController
+HomePageController.turfTest = (req, res) => {
+  // app.get('/turftest', (req, res) => {
+//   const point1 = turf.point([-73.123, 40.1234])
+
+//   console.log(point1)
+// })
+  res.render('index', {})
+}
+
+const BusRecordController = {}
 
 BusRecordController.ingestBusData = (req, res, next) => {
   var options = {
@@ -95,7 +105,7 @@ BusRecordController.ingestBusData = (req, res, next) => {
     })
 }
 
-BusRecordController.showSampleBusData = (req, res, next) => {
+// BusRecordController.showSampleBusData = (req, res, next) => {
 // ORIGINAL FUNCTION: 
 // app.get('/sample', (req, res) => {
 //   dbMethods.readRecordsOnDateOnRoute({
@@ -167,34 +177,23 @@ BusRecordController.showSampleBusData = (req, res, next) => {
 // ======= ROUTES ================
 
 
-const express = require('express')
-const router = express.Router()
+
 // Controller dependencies go here
 // const BusController = require('../controllers/busRecordController')
 // const HomePageController = require('..//controllers/homePageController')
 // const { catchErrors } = require('../handlers/errorHandlers')
 
 router.get('/', HomePageController.homePage)
-router.post('/request', BusController.ingestBusData)
-router.get('/samplequery', BusController.showSampleBusData)
-router.get('/turftest', HomePageController.testTurfJS)
+// router.post('/request', BusRecordController.ingestBusData)
+// router.get('/samplequery', BusRecordController.showSampleBusData)
+// router.get('/turftest', HomePageController.testTurfJS)
 
 
 
 
-app.use('/', routes)
-
-
-// app.get('/turftest', (req, res) => {
-//   const point1 = turf.point([-73.123, 40.1234])
-
-//   console.log(point1)
-// })
-
-module.exports = app
+app.use('/', router)
 
 // App
-const app = require('./app')
 app.set('port', process.env.PORT || 3000)
 const server = app.listen(app.get('port'), () => {
   console.log(`TTC Clustering app running on PORT -> ${server.address().port}`)
