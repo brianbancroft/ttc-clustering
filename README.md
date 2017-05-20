@@ -20,30 +20,28 @@ Like everything JS, dealing with asynchronity is the largest challenge. Right no
 - [x] Ensure records being uploaded use a `ST_Within` for each point to determine clustering
 - [x] Retrieve points at certain day for certain route from local DB
 - [x] Ensure GeoJSON-compliant formatting for query output at the _/test-extract_ route
-- [] Strip all results whose `predictable` tag is false
-- [] Create 'cron-job'type tasking which scrapes feed at certain times of day automatically
-- [] Create 'start' route for cron job
-- [] Create 'stop' route for cron job
-- [] Setup Admin Panel which sets the tasks
-<<<<<<< HEAD
-- [] Modify Admin Panel to control cron job
-- [] Parameterize Routes.
-- [] Use TurfJS instead of PostGIS to do spatial queries to minimize DB Calls
-- [] Create bulk update method
-- [] Remove string interpoltation in DB calls
-=======
-- [] Modify Admin Panel to control cron jobs
-- [] Parameterize route for obtaining call.
-- [] Create a users table
-- [] Create a bcrypt-style login for
-- [] Create an API EP which sets the settings of observing data
->>>>>>> bb4df084594eafee4ec1380f34ecb43684638343
-- [] Determine whether systematic clustering is ongoing (through prodding around)
-- [] Create separate map app which can view sample endpoint
-- [] Create dataviz
-- [] Create separate front-end app to be hosted via GH pages
-- [] Rebuild from mobile-first design
-- [] Seek assistance from a Civic Tech community to do the following:
+- [ ] Refactor all tasks to fit an ORM-style setup using a single-file app.
+- [ ] Refactor ORM single-file node app to one which includes Models, Controllers, Routes and Modules
+- [ ] Strip all results whose `predictable` tag is false
+- [ ] Create 'cron-job'type tasking which scrapes feed at certain times of day automatically
+- [ ] Create 'start' route for cron job
+- [ ] Create 'stop' route for cron job
+- [ ] Setup Admin Panel which sets the tasks
+- [ ] Modify Admin Panel to control cron job
+- [ ] Parameterize route for .
+- [ ] Use TurfJS instead of PostGIS to do spatial queries to minimize DB Calls
+- [ ] Create bulk update method
+- [ ] Remove string interpoltation in DB calls
+- [ ] Parameterize route for obtaining call.
+- [ ] Create a users table
+- [ ] Use OAuth to handle login
+- [ ] Create an API EP which sets the settings of observing data
+- [ ] Determine whether systematic clustering is ongoing (through prodding around)
+- [ ] Integrate an EP which uses Leaflet to
+- [ ] Team up with with @dwilhelm89 to integrate a Leaflet Time-Slider on one of the routes`
+- [ ] Create separate front-end app to be hosted via GH pages
+- [ ] Rebuild from mobile-first design
+- [ ] Seek assistance from a Civic Tech community to do the following:
   1. Figure out better use strategy
   2. Improve user experience
   3. Determine better strategy for bringing forward to higher powers

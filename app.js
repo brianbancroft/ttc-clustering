@@ -1,5 +1,12 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser');
+const router = express.Router()
+
+Sequelize = require('sequelize')
+// Imports environment variables from .env file
+
+require('dotenv').config({ path: '.env' })
 
 var rp = require('request-promise')
 const http = require('http')
@@ -14,7 +21,101 @@ app.set('view engine', 'pug')
 // moment().format()
 
 const dbMethods = require('./database/')
-const routes = require('./routes/index')
+// const routes = require('./routes/index')
+
+// Takes the raw requests and turns them into usable properties on req.body
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// ===== DATABASE =====
+
+const sequelize = new Sequelize('ttcclusters_development', /*user*/'brianbancroft', /*pass*/'', {
+  host: 'localhost',
+  dialect: 'postgres',
+
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  }
+})
+
+sequelize
+  .authenticate()
+  .then(err => {
+    console.log('Connected to DB Successful.')
+  })
+  .catch(err => {
+    console.error(`🚫 Bad connection 🚫 -> ${err}`)
+  })
+
+
+
+// ====== MODELS =====
+
+const BusLocation = (sequelize, DataTypes) => {
+  return sequelize.define('BusLocation', {
+    route: Sequelize.INTEGER,
+    time: Sequelize.TIME,
+    is_clustered: Sequelize.BOOLEAN,
+    direction_tag: Sequelize.STRING,
+    heading: Sequelize.INTEGER,
+    point: Sequelize.GEOMETRY('POINT')
+  })
+}
+
+
+// ===== CONTROLLERS =====
+
+const HomePageController = {}
+
+HomePageController.homePage = (req, res) => {
+  res.render('index', {
+    data : {
+      title: 'Home Page'
+    }
+  })
+}
+
+HomePageController.turfTest = (req, res) => {
+  // app.get('/turftest', (req, res) => {
+//   const point1 = turf.point([-73.123, 40.1234])
+
+//   console.log(point1)
+// })
+  res.render('index', {})
+}
+
+const BusRecordController = {}
+
+BusRecordController.ingestBusData = (req, res, next) => {
+  var options = {
+    uri: 'http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491951669267',
+    headers: {
+    'User-Agent': 'Request-Promise'
+    },
+    json: true
+  }
+  rp(options)
+    .then(function (payload) {
+      next(payload)
+    })
+    .catch(function (err) {
+      console.log(err) 
+    })
+}
+
+// BusRecordController.showSampleBusData = (req, res, next) => {
+// ORIGINAL FUNCTION: 
+// app.get('/sample', (req, res) => {
+//   dbMethods.readRecordsOnDateOnRoute({
+//     route: '60',
+//     month: '4',
+//     day: '15'
+//   }, (results) => {
+//     res.write(JSON.stringify({foo: 'bar'}))
+//   })
+// })
 
 
 
@@ -22,7 +123,7 @@ const routes = require('./routes/index')
 //   const distance = 75 //75 metres
 //   let busIsClose = false
 
-
+// require('./models/BusLocation')
 
 //   dbMethods.readRecordsWithinDistance({
 //     lat: params.lat,
@@ -75,8 +176,25 @@ const routes = require('./routes/index')
 
 // ======= ROUTES ================
 
-app.use('/', routes);
+
+
+// Controller dependencies go here
+// const BusController = require('../controllers/busRecordController')
+// const HomePageController = require('..//controllers/homePageController')
+// const { catchErrors } = require('../handlers/errorHandlers')
+
+router.get('/', HomePageController.homePage)
+// router.post('/request', BusRecordController.ingestBusData)
+// router.get('/samplequery', BusRecordController.showSampleBusData)
+// router.get('/turftest', HomePageController.testTurfJS)
 
 
 
-module.exports = app;
+
+app.use('/', router)
+
+// App
+app.set('port', process.env.PORT || 3000)
+const server = app.listen(app.get('port'), () => {
+  console.log(`TTC Clustering app running on PORT -> ${server.address().port}`)
+})
