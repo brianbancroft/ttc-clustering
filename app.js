@@ -61,7 +61,7 @@ const BusLocation = sequelize.define('BusLocation', {
 
 // ===== CONTROLLERS =====
 
-const HomePageController = {}
+const HomePageController
 
 HomePageController.homePage = (req, res) => {
   res.render('index', {
@@ -71,7 +71,7 @@ HomePageController.homePage = (req, res) => {
   })
 }
 
-const BusRecordController = {}
+const BusRecordController
 
 BusRecordController.ingestBusData = (req, res, next) => {
   NextVehicleArrivalSystem.request()
@@ -103,7 +103,7 @@ BusRecordController.ingestBusData = (req, res, next) => {
 
 // ====== MODULES =====
 
-const NextVehicleArrivalSystem = {}
+const NextVehicleArrivalSystem
 
 NextVehicleArrivalSystem.request = () => rp({
   uri: 'http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491951669267',
@@ -113,9 +113,9 @@ NextVehicleArrivalSystem.request = () => rp({
   json: true
 })
 
-const TurfSetup = {}
+const GeoJSONConversion
 
-TurfSetup.setupBackgroundData = (data) => {
+GeoJSONConversion.setupBackgroundData = (data) => {
   return {
     type: 'FeatureCollection',
     features: data.map(element => {
@@ -132,6 +132,8 @@ TurfSetup.setupBackgroundData = (data) => {
     })
   }
 }
+
+const TurfSetup
 
 TurfSetup.getSinglePoint = (bus) => turf.point([Number(bus.lon), Number(bus.lat)])
 
