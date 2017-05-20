@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "@turf/turf": "^4.1.0",
+    "body-parser": "^1.17.2",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
     "http": "0.0.0",

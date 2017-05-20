@@ -1,17 +1,4 @@
-const pg = require('pg')
-
-// Database connection parameters
-
-const config = {
-  host: process.env.DATABASE_URL || 'postgres://localhost:5432/ttc_clustering_development',
-  max: 10,
-  idleTimeOutMillis: 30000
-}
-const pool = new pg.Pool(config)
-
-pool.on('error', (err, client) => {
-  console.error(`🚫 DB 🚫 → ${err.message}; ${err.stack}`)
-})
+// const pg = require('pg')
 
 // NEW SYNTAX
 

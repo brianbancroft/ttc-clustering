@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser');
+
 
 var rp = require('request-promise')
 const http = require('http')
@@ -16,13 +18,15 @@ app.set('view engine', 'pug')
 const dbMethods = require('./database/')
 const routes = require('./routes/index')
 
-
+// Takes the raw requests and turns them into usable properties on req.body
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // function isBusClose (params) {
 //   const distance = 75 //75 metres
 //   let busIsClose = false
 
-
+require('./models/BusLocation')
 
 //   dbMethods.readRecordsWithinDistance({
 //     lat: params.lat,
