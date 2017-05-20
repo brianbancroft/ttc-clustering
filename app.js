@@ -77,25 +77,15 @@ BusRecordController.ingestBusData = (req, res, next) => {
   NextVehicleArrivalSystem.request()
     .then((data) => {
       // const time = new Date().toISOString()
-      const test = GeoJSONConversion.setupBackgroundData(data.vehicle)
-      data.vehicle.map((bus) => {
-        // TODO 1) Get time, 2) Get Clustered
-        // BusLocation.create({
-        //   route: Number(bus.routeTag),
-        //   // time: time, 
-        //   is_clustered: false,
-        //   direction_tag: bus.dirTag,
-        //   heading: Number(bus.heading),
-        //   point: { type: 'Point', coordinates: [Number(bus.lat),Number(bus.lon)]}
-        // })
-      })
+      // const test = GeoJSONConversion.setupBackgroundData(data.vehicle)
+      // TODO: 1) Get time, 2) Get Clustered Boolean Value
+      data.vehicle.map((bus) => BusLocation.create(BusLocationSetup.singleInstance(bus)))
     })
     .then(() => {
-      res.end('Data Ingested')
+      res.end('Sucess: Data Ingested')
     })
     .catch((err) => {
-      console.warn(err)
-      res.end('Warning: Data failed to ingest. Situations', {err})
+      res.end(err)
     })
 }
 
@@ -134,6 +124,20 @@ GeoJSONConversion.setupBackgroundData = (data) => {
 const TurfSetup = {}
 
 TurfSetup.getSinglePoint = (bus) => turf.point([Number(bus.lon), Number(bus.lat)])
+
+const BusLocationSetup = {}
+
+// TODO: 1) Get time, 2) Get Clustered Boolean Value
+BusLocationSetup.singleInstance = (bus) => {
+  return {
+    route: Number(bus.routeTag),
+    // time: time, 
+    is_clustered: false,
+    direction_tag: bus.dirTag,
+    heading: Number(bus.heading),
+    point: { type: 'Point', coordinates: [Number(bus.lat),Number(bus.lon)]}
+  }
+}
 
 // ======= ROUTES ================
 
