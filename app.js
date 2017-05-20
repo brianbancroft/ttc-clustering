@@ -20,8 +20,6 @@ const turf = require('@turf/turf')
 var moment = require('moment')
 moment().format()
 
-const dbMethods = require('./database/')
-// const routes = require('./routes/index')
 
 // Takes the raw requests and turns them into usable properties on req.body
 app.use(bodyParser.json())
@@ -90,6 +88,7 @@ const BusRecordController = {}
 
 BusRecordController.ingestBusData = (req, res, next) => {
   NextVehicleArrivalSystem.request((data) => {
+    console.log(data)
     // TODO: check if ORM allows you to save multiple records
     // TODO: invoke BusLocation.create()
   })
