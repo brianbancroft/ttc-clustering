@@ -3,23 +3,23 @@ const app = express()
 const bodyParser = require('body-parser')
 const router = express.Router()
 
-Sequelize = require('sequelize')
-// Imports environment variables from .env file
-
-require('dotenv').config({ path: '.env' })
-
 var rp = require('request-promise')
 const http = require('http')
 
-// Template engine setup
+// ===== TEMPLATING ENGINE (PUG) =====
 app.set('views', __dirname + '/views')
 app.set('view engine', 'pug')
 
-// Middleware
+// ===== MIDDLEWARE =====
 const turf = require('@turf/turf')
 var moment = require('moment')
 moment().format()
 
+// Enforces ORM in app
+Sequelize = require('sequelize')
+
+// Imports environment variables from .env file
+require('dotenv').config({ path: '.env' })
 
 // Takes the raw requests and turns them into usable properties on req.body
 app.use(bodyParser.json())
@@ -30,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 const sequelize = new Sequelize('ttcclusters_development', /*user*/'brianbancroft', /*pass*/'', {
   host: 'localhost',
   dialect: 'postgres',
+  timezone: '-05:00',
 
   pool: {
     max: 5,
@@ -47,11 +48,9 @@ sequelize
     console.error(`🚫 Bad connection 🚫 -> ${err}`)
   })
 
-
-
 // ====== MODELS =====
 
-const BusLocation = (sequelize, DataTypes) => sequelize.define('BusLocation', {
+const BusLocation = sequelize.define('BusLocation', {
   route: Sequelize.INTEGER,
   time: Sequelize.TIME,
   is_clustered: Sequelize.BOOLEAN,
@@ -82,14 +81,40 @@ HomePageController.turfTest = (req, res) => {
 }
 
 const BusRecordController = {}
-
+/*
+{ id: '8570',
+  lon: '-79.600464',
+  routeTag: '60',
+  predictable: 'true',
+  dirTag: '60_0_60D',
+  heading: '73',
+  lat: '43.758518',
+  secsSinceReport: '18' }
+*/
 BusRecordController.ingestBusData = (req, res, next) => {
   NextVehicleArrivalSystem.request()
     .then((data) => {
-      console.log(data)
+      const d = new Date()
+      console.log(d.toISOString())
+      data.vehicle.map((bus) => {
+        // TODO 1) Get time, 2) Get Clustered
+        console.log(bus)
+        BusLocation.create({
+          route: Number(bus.routeTag),
+          // time: d.toISOString(), 
+          is_clustered: false,
+          direction_tag: bus.dirTag,
+          heading: Number(bus.heading),
+          point: { type: 'Point', coordinates: [Number(bus.lat),Number(bus.lon)]}
+        })
+      })
+    })
+    .then(() => {
+      res.end('Data Ingested')
     })
     .catch((err) => {
-      consol.warn(error)
+      console.warn(err)
+      res.end('Warning: Data failed to ingest. Situations', {err})
     })
 }
 
@@ -145,7 +170,6 @@ BusRecordController.ingestBusData = (req, res, next) => {
 //     results.features.push(resultElement)
 
 //   })
-
 //   query.on('end', () => {
 //     callback(results)
 //   })
