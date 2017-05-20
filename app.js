@@ -89,21 +89,14 @@ HomePageController.turfTest = (req, res) => {
 const BusRecordController = {}
 
 BusRecordController.ingestBusData = (req, res, next) => {
-  var options = {
-    uri: 'http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491951669267',
-    headers: {
-    'User-Agent': 'Request-Promise'
-    },
-    json: true
-  }
-  rp(options)
-    .then(function (payload) {
-      next(payload)
-    })
-    .catch(function (err) {
-      console.log(err) 
-    })
+  NextVehicleArrivalSystem.request((data) => {
+    // TODO: check if ORM allows you to save multiple records
+    // TODO: invoke BusLocation.create();
+  });
 }
+
+
+
 
 // BusRecordController.showSampleBusData = (req, res, next) => {
 // ORIGINAL FUNCTION: 
@@ -118,12 +111,36 @@ BusRecordController.ingestBusData = (req, res, next) => {
 // })
 
 
+// ====== MODULES =====
+
+const NextVehicleArrivalSystem = {}
+
+NextVehicleArrivalSystem.request = (cb) => {
+  const options = {
+    uri: 'http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491951669267',
+    headers: {
+    'User-Agent': 'Request-Promise'
+    },
+    json: true
+  }
+  rp(options)
+    .then((payload) => {
+      cb(payload)
+    })
+    .catch((err) => {
+      console.log(err) 
+    })
+}
+
+NextVehicleArrivalSystem.checkForClustering = (records) => {
+  // TODO: Using turf.js, determine whether busses are within 75m
+}
+
 
 // function isBusClose (params) {
 //   const distance = 75 //75 metres
 //   let busIsClose = false
 
-// require('./models/BusLocation')
 
 //   dbMethods.readRecordsWithinDistance({
 //     lat: params.lat,
@@ -184,7 +201,7 @@ BusRecordController.ingestBusData = (req, res, next) => {
 // const { catchErrors } = require('../handlers/errorHandlers')
 
 router.get('/', HomePageController.homePage)
-// router.post('/request', BusRecordController.ingestBusData)
+router.post('/request', BusRecordController.ingestBusData)
 // router.get('/samplequery', BusRecordController.showSampleBusData)
 // router.get('/turftest', HomePageController.testTurfJS)
 
