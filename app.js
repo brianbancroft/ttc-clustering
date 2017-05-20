@@ -51,17 +51,14 @@ sequelize
 
 // ====== MODELS =====
 
-const BusLocation = (sequelize, DataTypes) => {
-  return sequelize.define('BusLocation', {
-    route: Sequelize.INTEGER,
-    time: Sequelize.TIME,
-    is_clustered: Sequelize.BOOLEAN,
-    direction_tag: Sequelize.STRING,
-    heading: Sequelize.INTEGER,
-    point: Sequelize.GEOMETRY('POINT')
-  })
-}
-
+const BusLocation = (sequelize, DataTypes) => sequelize.define('BusLocation', {
+  route: Sequelize.INTEGER,
+  time: Sequelize.TIME,
+  is_clustered: Sequelize.BOOLEAN,
+  direction_tag: Sequelize.STRING,
+  heading: Sequelize.INTEGER,
+  point: Sequelize.GEOMETRY('POINT')
+})
 
 // ===== CONTROLLERS =====
 
@@ -87,15 +84,14 @@ HomePageController.turfTest = (req, res) => {
 const BusRecordController = {}
 
 BusRecordController.ingestBusData = (req, res, next) => {
-  NextVehicleArrivalSystem.request((data) => {
-    console.log(data)
-    // TODO: check if ORM allows you to save multiple records
-    // TODO: invoke BusLocation.create()
-  })
+  NextVehicleArrivalSystem.request()
+    .then((data) => {
+      console.log(data)
+    })
+    .catch((err) => {
+      consol.warn(error)
+    })
 }
-
-
-
 
 // BusRecordController.showSampleBusData = (req, res, next) => {
 // ORIGINAL FUNCTION: 
@@ -160,32 +156,21 @@ BusRecordController.ingestBusData = (req, res, next) => {
 
 const NextVehicleArrivalSystem = {}
 
-NextVehicleArrivalSystem.request = (cb) => {
-  const options = {
-    uri: 'http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491951669267',
-    headers: {
-    'User-Agent': 'Request-Promise'
-    },
-    json: true
-  }
-  rp(options)
-    .then((payload) => {
-      cb(payload)
-    })
-    .catch((err) => {
-      console.log(err) 
-    })
-}
+NextVehicleArrivalSystem.request = () => rp({
+  uri: 'http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491951669267',
+  headers: {
+  'User-Agent': 'Request-Promise'
+  },
+  json: true
+})
 
 NextVehicleArrivalSystem.checkForClustering = (records) => {
   // TODO: Using turf.js, determine whether busses are within 75m
 }
 
-
 // function isBusClose (params) {
 //   const distance = 75 //75 metres
 //   let busIsClose = false
-
 
 //   dbMethods.readRecordsWithinDistance({
 //     lat: params.lat,
@@ -238,8 +223,6 @@ NextVehicleArrivalSystem.checkForClustering = (records) => {
 
 // ======= ROUTES ================
 
-
-
 // Controller dependencies go here
 // const BusController = require('../controllers/busRecordController')
 // const HomePageController = require('..//controllers/homePageController')
@@ -249,9 +232,6 @@ router.get('/', HomePageController.homePage)
 router.post('/request', BusRecordController.ingestBusData)
 // router.get('/samplequery', BusRecordController.showSampleBusData)
 // router.get('/turftest', HomePageController.testTurfJS)
-
-
-
 
 app.use('/', router)
 
