@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser')
 const router = express.Router()
 
 Sequelize = require('sequelize')
@@ -24,8 +24,8 @@ const dbMethods = require('./database/')
 // const routes = require('./routes/index')
 
 // Takes the raw requests and turns them into usable properties on req.body
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // ===== DATABASE =====
 
@@ -91,8 +91,8 @@ const BusRecordController = {}
 BusRecordController.ingestBusData = (req, res, next) => {
   NextVehicleArrivalSystem.request((data) => {
     // TODO: check if ORM allows you to save multiple records
-    // TODO: invoke BusLocation.create();
-  });
+    // TODO: invoke BusLocation.create()
+  })
 }
 
 
