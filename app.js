@@ -104,43 +104,26 @@ NextVehicleArrivalSystem.request = () => rp({
 
 const GeoJSONConversion = {}
 
-GeoJSONConversion.setupBackgroundData = data => {
-  return {
-    type: 'FeatureCollection',
-    features: data.map(element => {
-      return {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [Number(element.lon), Number(element.lat)]
-        },
-        properties: {
-          id: Number(element.id)
-        }
-      }
-    })
-  }
-}
+GeoJSONConversion.setupBackgroundData = data => turf.geometryCollection(data.map(element => GeoJSONConversion.setupSinglePoint(element)))
+
 GeoJSONConversion.setupSinglePoint = (bus) => turf.point([Number(bus.lon), Number(bus.lat)])
 
 const GeoAnalysis = {}
 
 
 GeoAnalysis.BusCountWithin = (sourcePoints, comparePoint, radiusInMeters) => { 
-  console.log(comparePoint)
-  console.log('attempting to buffer')
   const buffer = turf.buffer(comparePoint, radiusInMeters / 1000, 'kilometers')
-  console.log(JSON.stringify(buffer))
-  console.log('bus count within search started') 
-  const result = turf.within(JSON.stringify(comparePoints), buffer)
-  console.log('method complete')
-  return result
+  console.log(sourcePoints)
+  console.log('break')
+  console.log(comparePoint)
+  const result = turf.within(JSON.stringify(sourcePoints), buffer)
+  return result.length
 }
 
 
 const BusLocationSetup = {}
 
-// TODO: 1) Get time, 2) Get Clustered Boolean Value
+// TODO: 1) Get time, 2) Get Clustered Boolean Value 3) Try/Catch for conversion methods 4) Promisefy geographical methods
 BusLocationSetup.singleInstance = (bus, refGeoJSON) => {
   console.log('Number of busses within: ', GeoAnalysis.BusCountWithin(refGeoJSON, GeoJSONConversion.setupSinglePoint(bus), 300))
 
