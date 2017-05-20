@@ -24,6 +24,6 @@
     "sequelize-cli": "^2.7.0"
   },
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon app.js"
   }
 }
