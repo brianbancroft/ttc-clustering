@@ -91,9 +91,7 @@ BusRecordController.ingestBusData = (req, res) => {
 }
 
 BusRecordController.getSampleBusData = (req, res) => {
-  console.log(JSON.stringify(BusLocation.all()))
-  BusLocation.all().then(data => {
-    console.log(JSON.stringify(data))
+  BusLocation.all({where: {route: '60'}}).then(data => {
     res.render('index', {
     data : {
       title: 'Data obtained'
@@ -132,7 +130,6 @@ GeoAnalysis.BusCountWithin = (sourcePoints, comparePoint, radiusInMeters) => tur
 
 const BusLocationSetup = {}
 
-// TODO: 1) Get time
 BusLocationSetup.singleInstance = (bus, refGeoJSON) => {
   return {
     route: Number(bus.routeTag),
