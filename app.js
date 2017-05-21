@@ -92,22 +92,36 @@ BusRecordController.ingestBusData = (req, res) => {
 
 BusRecordController.getSampleBusData = (req, res) => {
   // TODO: Get route, date params from query
-  const route = '60'
-  BusLocation.all({where: {route: route}}).then(data => {
-    console.log(JSON.stringify(data))
-    res.render('map', {
-    data : {
-      title: 'Data obtained',
-      geodata: JSON.stringify(turf.featureCollection(data.map(element => turf.point(element.point.coordinates, {dirTag: element.direction_tag}))))
-    }
-  })
-  }).catch(err => {
+  if (req.query.route) { 
+    BusLocation.all({where: {route: req.query.route}}).then(data => {
+      if (data.length > 0) {
+        res.render('map', {
+          data : {
+            title: 'Data obtained',
+            geodata: JSON.stringify(turf.featureCollection(data.map(element => turf.point(element.point.coordinates, {dirTag: element.direction_tag}))))
+          }
+        })
+      } else {
+        res.render('index', {
+          data: {
+            title: 'No data returned from request'
+          }
+        })
+      }
+    }).catch(err => {
+      res.render('index', {
+        data: {
+          title: err
+        }
+      })
+    })
+  } else { 
     res.render('index', {
       data: {
-        title: err
+        title: 'Page requires route query param'
       }
     })
-  })
+  }
 }
 
 // ====== MODULES =====
@@ -148,6 +162,7 @@ BusLocationSetup.singleInstance = (bus, refGeoJSON) => {
 // ======= ROUTES ================
 
 router.get('/', HomePageController.homePage)
+// QP: busses, date
 router.get('/busses', BusRecordController.getSampleBusData)
 router.post('/request', BusRecordController.ingestBusData)
 
