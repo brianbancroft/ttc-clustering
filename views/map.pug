@@ -8,7 +8,26 @@ script.
   var map = new mapboxgl.Map({
       container: 'map', // container id
       style: 'mapbox://styles/mapbox/streets-v9', //stylesheet location
-      center: [-74.50, 40], // starting position
+      center: [-79.4694861, 43.7814104], // starting position
       zoom: 9 // starting zoom
+  });
+
+
+  //bus-15
+  map.on('load', () => {
+    console.log(('!{data.geodata}'))
+    const geodata = JSON.parse('!{data.geodata}');
+    map.addLayer({
+      "id": "points",
+      "type": "circle",
+      "source": {
+        "type": "geojson",
+        "data": geodata
+      },
+      "paint": {
+        "circle-color": 'rgba(0,255,0,0.5)',
+        "circle-radius": 10
+      }
+    });
   });
 

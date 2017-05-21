@@ -110,7 +110,6 @@ BusRecordController.getSampleBusData = (req, res) => {
 }
 
 // ====== MODULES =====
-// turf.featureCollection(foo.map(element => turf.point(element.point.coordinates, {dirTag: element.direction_tag})))
 
 const NextVehicleArrivalSystem = {}
 
@@ -141,7 +140,7 @@ BusLocationSetup.singleInstance = (bus, refGeoJSON) => {
     direction_tag: bus.dirTag,
     timeSinceLast: bus.secsSinceReport,
     heading: Number(bus.heading),
-    point: { type: 'Point', coordinates: [Number(bus.lat),Number(bus.lon)]}
+    point: { type: 'Point', coordinates: [Number(bus.lon),Number(bus.lat)]}
   }
 }
 
