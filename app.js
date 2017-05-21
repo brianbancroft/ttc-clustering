@@ -41,7 +41,7 @@ const sequelize = new Sequelize('ttcclusters_development', /*user*/'brianbancrof
 
 sequelize
   .authenticate()
-  .then(err => {
+  .then(() => {
     console.log('Connected to DB Successful.')
   })
   .catch(err => {
@@ -75,7 +75,7 @@ const BusRecordController = {}
 
 BusRecordController.ingestBusData = (req, res, next) => {
   NextVehicleArrivalSystem.request()
-    .then((data) => {
+    .then(data => {
       // const time = new Date().toISOString()
       
       // gathers all points for clustering comparasion
@@ -85,7 +85,7 @@ BusRecordController.ingestBusData = (req, res, next) => {
     .then(() => {
       res.end('Sucess: Data Ingested')
     })
-    .catch((err) => {
+    .catch(err => {
       res.end(err)
     })
 }
@@ -106,10 +106,9 @@ const GeoJSONConversion = {}
 
 GeoJSONConversion.setupBackgroundData = data => turf.geometryCollection(data.map(element => GeoJSONConversion.setupSinglePoint(element)))
 
-GeoJSONConversion.setupSinglePoint = (bus) => turf.point([Number(bus.lon), Number(bus.lat)])
+GeoJSONConversion.setupSinglePoint = bus => turf.point([Number(bus.lon), Number(bus.lat)])
 
 const GeoAnalysis = {}
-
 
 GeoAnalysis.BusCountWithin = (sourcePoints, comparePoint, radiusInMeters) => { 
   const buffer = turf.buffer(comparePoint, radiusInMeters / 1000, 'kilometers')
@@ -119,7 +118,6 @@ GeoAnalysis.BusCountWithin = (sourcePoints, comparePoint, radiusInMeters) => {
   const result = turf.within(JSON.stringify(sourcePoints), buffer)
   return result.length
 }
-
 
 const BusLocationSetup = {}
 
