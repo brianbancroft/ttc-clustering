@@ -116,10 +116,8 @@ const BusLocationSetup = {}
 
 // TODO: 1) Get time
 BusLocationSetup.singleInstance = (bus, refGeoJSON) => {
-  console.log()
   return {
     route: Number(bus.routeTag),
-    // time: time, 
     is_clustered: GeoAnalysis.BusCountWithin(refGeoJSON, GeoJSONConversion.setupSinglePoint(bus), 75) > 1,
     direction_tag: bus.dirTag,
     heading: Number(bus.heading),

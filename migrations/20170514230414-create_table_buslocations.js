@@ -2,17 +2,17 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.createTable('bus_locations', { 
+    return queryInterface.createTable('BusLocations', { 
       id: {
         type: Sequelize.INTEGER(),
         primaryKey: true,
         autoIncrement: true
       },
       route: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
-      time: {
-        type: Sequelize.TIME
+      timeSinceLast: {
+        type: Sequelize.INTEGER
       },
       is_clustered: {
         type: Sequelize.BOOLEAN
