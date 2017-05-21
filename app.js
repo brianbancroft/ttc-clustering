@@ -106,16 +106,17 @@ const GeoJSONConversion = {}
 
 GeoJSONConversion.setupPointCollection = data => turf.featureCollection(data.map(element => GeoJSONConversion.setupSinglePoint(element)))
 
-GeoJSONConversion.setupSinglePoint = (bus => turf.point([Number(bus.lon), Number(bus.lat)]))
+GeoJSONConversion.setupSinglePoint = (bus => turf.point([Number(bus.lon), Number(bus.lat)], {dirTag: bus.dirTag ? bus.dirTag : 'null_null_null'}))
 
 const GeoAnalysis = {}
 
-GeoAnalysis.BusCountWithin = (sourcePoints, comparePoint, radiusInMeters) => turf.within(sourcePoints, turf.featureCollection([turf.buffer(comparePoint, radiusInMeters / 1000, 'kilometers')])).features.length
+GeoAnalysis.BusCountWithin = (sourcePoints, comparePoint, radiusInMeters) => turf.within(sourcePoints, turf.featureCollection([turf.buffer(comparePoint, radiusInMeters / 1000, 'kilometers')])).features.filter(element => element.properties.dirTag.split('_')[1] === comparePoint.properties.dirTag.split('_')[1]).length
 
 const BusLocationSetup = {}
 
 // TODO: 1) Get time
 BusLocationSetup.singleInstance = (bus, refGeoJSON) => {
+  console.log()
   return {
     route: Number(bus.routeTag),
     // time: time, 
