@@ -41,7 +41,7 @@ const sequelize = new Sequelize('ttcclusters_development', /*user*/'brianbancrof
 
 sequelize
   .authenticate()
-  .then(() => {
+  .then(err => {
     console.log('Connected to DB Successful.')
   })
   .catch(err => {
@@ -75,17 +75,17 @@ const BusRecordController = {}
 
 BusRecordController.ingestBusData = (req, res, next) => {
   NextVehicleArrivalSystem.request()
-    .then(data => {
+    .then((data) => {
       // const time = new Date().toISOString()
       
       // gathers all points for clustering comparasion
-      const refGeoJSON = GeoJSONConversion.setupBackgroundData(data.vehicle)
+      const refGeoJSON = GeoJSONConversion.setupPointCollection(data.vehicle)
       data.vehicle.map((bus) => BusLocation.create(BusLocationSetup.singleInstance(bus, refGeoJSON)))
     })
     .then(() => {
       res.end('Sucess: Data Ingested')
     })
-    .catch(err => {
+    .catch((err) => {
       res.end(err)
     })
 }
@@ -104,31 +104,22 @@ NextVehicleArrivalSystem.request = () => rp({
 
 const GeoJSONConversion = {}
 
-GeoJSONConversion.setupBackgroundData = data => turf.geometryCollection(data.map(element => GeoJSONConversion.setupSinglePoint(element)))
+GeoJSONConversion.setupPointCollection = data => turf.featureCollection(data.map(element => GeoJSONConversion.setupSinglePoint(element)))
 
-GeoJSONConversion.setupSinglePoint = bus => turf.point([Number(bus.lon), Number(bus.lat)])
+GeoJSONConversion.setupSinglePoint = (bus => turf.point([Number(bus.lon), Number(bus.lat)]))
 
 const GeoAnalysis = {}
 
-GeoAnalysis.BusCountWithin = (sourcePoints, comparePoint, radiusInMeters) => { 
-  const buffer = turf.buffer(comparePoint, radiusInMeters / 1000, 'kilometers')
-  console.log(sourcePoints)
-  console.log('break')
-  console.log(comparePoint)
-  const result = turf.within(JSON.stringify(sourcePoints), buffer)
-  return result.length
-}
+GeoAnalysis.BusCountWithin = (sourcePoints, comparePoint, radiusInMeters) => turf.within(sourcePoints, turf.featureCollection([turf.buffer(comparePoint, radiusInMeters / 1000, 'kilometers')])).features.length
 
 const BusLocationSetup = {}
 
-// TODO: 1) Get time, 2) Get Clustered Boolean Value 3) Try/Catch for conversion methods 4) Promisefy geographical methods
+// TODO: 1) Get time
 BusLocationSetup.singleInstance = (bus, refGeoJSON) => {
-  console.log('Number of busses within: ', GeoAnalysis.BusCountWithin(refGeoJSON, GeoJSONConversion.setupSinglePoint(bus), 300))
-
   return {
     route: Number(bus.routeTag),
     // time: time, 
-    is_clustered: false,
+    is_clustered: GeoAnalysis.BusCountWithin(refGeoJSON, GeoJSONConversion.setupSinglePoint(bus), 75) > 1,
     direction_tag: bus.dirTag,
     heading: Number(bus.heading),
     point: { type: 'Point', coordinates: [Number(bus.lat),Number(bus.lon)]}
