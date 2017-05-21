@@ -25,10 +25,16 @@ module.exports = {
       },
       point: {
         type: Sequelize.GEOMETRY('POINT')
+      }, 
+      createdAt: {
+        type: Sequelize.TIME
+      },
+      updatedAt: {
+        type: Sequelize.TIME
       }
     });
   },
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable('bus_locations');
+    return queryInterface.dropTable('BusLocations');
   }
 };

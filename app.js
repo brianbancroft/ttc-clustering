@@ -52,7 +52,7 @@ sequelize
 
 const BusLocation = sequelize.define('BusLocation', {
   route: Sequelize.INTEGER,
-  time: Sequelize.TIME,
+  timeSinceLast: Sequelize.INTEGER,
   is_clustered: Sequelize.BOOLEAN,
   direction_tag: Sequelize.STRING,
   heading: Sequelize.INTEGER,
@@ -73,7 +73,7 @@ HomePageController.homePage = (req, res) => {
 
 const BusRecordController = {}
 
-BusRecordController.ingestBusData = (req, res, next) => {
+BusRecordController.ingestBusData = (req, res) => {
   NextVehicleArrivalSystem.request()
     .then((data) => {
       // const time = new Date().toISOString()
@@ -88,6 +88,24 @@ BusRecordController.ingestBusData = (req, res, next) => {
     .catch((err) => {
       res.end(err)
     })
+}
+
+BusRecordController.getSampleBusData = (req, res) => {
+  console.log(JSON.stringify(BusLocation.all()))
+  BusLocation.all().then(data => {
+    console.log(JSON.stringify(data))
+    res.render('index', {
+    data : {
+      title: 'Data obtained'
+    }
+  })
+  }).catch(err => {
+    res.render('index', {
+      data: {
+        title: err
+      }
+    })
+  })
 }
 
 // ====== MODULES =====
@@ -120,6 +138,7 @@ BusLocationSetup.singleInstance = (bus, refGeoJSON) => {
     route: Number(bus.routeTag),
     is_clustered: GeoAnalysis.BusCountWithin(refGeoJSON, GeoJSONConversion.setupSinglePoint(bus), 75) > 1,
     direction_tag: bus.dirTag,
+    timeSinceLast: bus.secsSinceReport,
     heading: Number(bus.heading),
     point: { type: 'Point', coordinates: [Number(bus.lat),Number(bus.lon)]}
   }
@@ -128,6 +147,7 @@ BusLocationSetup.singleInstance = (bus, refGeoJSON) => {
 // ======= ROUTES ================
 
 router.get('/', HomePageController.homePage)
+router.get('/busses', BusRecordController.getSampleBusData)
 router.post('/request', BusRecordController.ingestBusData)
 
 app.use('/', router)
