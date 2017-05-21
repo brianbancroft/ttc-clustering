@@ -20,16 +20,16 @@ Like everything JS, dealing with asynchronity is the largest challenge. Right no
 - [x] Ensure records being uploaded use a `ST_Within` for each point to determine clustering
 - [x] Retrieve points at certain day for certain route from local DB
 - [x] Ensure GeoJSON-compliant formatting for query output at the _/test-extract_ route
-- [ ] Refactor all tasks to fit an ORM-style setup using a single-file app.
-- [ ] Refactor ORM single-file node app to one which includes Models, Controllers, Routes and Modules
+- [x] Refactor all tasks to fit an ORM-style setup using a single-file app.
+- [x] Refactor ORM single-file node app to one which includes Models, Controllers, Routes and Modules
+- [ ] Use TurfJS instead of PostGIS to do spatial queries to minimize DB Calls
 - [ ] Strip all results whose `predictable` tag is false
-- [ ] Create 'cron-job'type tasking which scrapes feed at certain times of day automatically
+- [ ] Create 'cron-job'mtype tasking which scrapes feed at certain times of day automatically
 - [ ] Create 'start' route for cron job
 - [ ] Create 'stop' route for cron job
 - [ ] Setup Admin Panel which sets the tasks
 - [ ] Modify Admin Panel to control cron job
-- [ ] Parameterize route for .
-- [ ] Use TurfJS instead of PostGIS to do spatial queries to minimize DB Calls
+- [ ] Parameterize route calls
 - [ ] Create bulk update method
 - [ ] Remove string interpoltation in DB calls
  - [ ] Parameterize route for obtaining call.
@@ -48,7 +48,7 @@ Like everything JS, dealing with asynchronity is the largest challenge. Right no
 
 ## Disclaimer. 
 
-I'm usually a rails dev, so making this happen will be tricky for me. It will be new. I'm always happy to get assistance where I can, but I may get cranky based on whatever technical problem I'm trying to solve. Don't worry, it's not you as you're a pretty awesome fellow.
+I'm usually a rails dev, so making this happen will be tricky for me. It will be new. I'm always happy to get assistance where I can, but I may get cranky based on whatever technical problem I'm trying to solve. 
 
 ## Setup
 _This setup assumes that you understand at least a little about NodeJS, and have NPM and PostGRES 9.4 or later installed._
