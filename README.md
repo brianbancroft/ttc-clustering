@@ -14,37 +14,12 @@ Like everything JS, dealing with asynchronity is the largest challenge. Right no
 
 ## Stages
 
-- [x] Determine End Points of the TTC Real-Time Feed
-- [x] Create back-end Framework that scrapes feed on command
-- [x] Upload records to PostGIS
-- [x] Ensure records being uploaded use a `ST_Within` for each point to determine clustering
-- [x] Retrieve points at certain day for certain route from local DB
-- [x] Ensure GeoJSON-compliant formatting for query output at the _/test-extract_ route
-- [x] Refactor all tasks to fit an ORM-style setup using a single-file app.
-- [x] Refactor ORM single-file node app to one which includes Models, Controllers, Routes and Modules
-- [ ] Use TurfJS instead of PostGIS to do spatial queries to minimize DB Calls
-- [ ] Strip all results whose `predictable` tag is false
-- [ ] Create 'cron-job'mtype tasking which scrapes feed at certain times of day automatically
-- [ ] Create 'start' route for cron job
-- [ ] Create 'stop' route for cron job
-- [ ] Setup Admin Panel which sets the tasks
-- [ ] Modify Admin Panel to control cron job
-- [ ] Parameterize route calls
-- [ ] Create bulk update method
-- [ ] Remove string interpoltation in DB calls
- - [ ] Parameterize route for obtaining call.
-- [ ] Create a users table
-- [ ] Use OAuth to handle login
-- [ ] Create an API EP which sets the settings of observing data
-- [ ] Determine whether systematic clustering is ongoing (through prodding around)
-- [ ] Integrate an EP which uses Leaflet to
-- [ ] Team up with with @dwilhelm89 to integrate a Leaflet Time-Slider on one of the routes`
-- [ ] Create separate front-end app to be hosted via GH pages
-- [ ] Rebuild from mobile-first design
-- [ ] Seek assistance from a Civic Tech community to do the following:
-  1. Figure out better use strategy
-  2. Improve user experience
-  3. Determine better strategy for bringing forward to higher powers
+- [x] Initial disovery with PSQL + PostGIS
+- [ ] Basic ORM Integration (in progress)
+- [ ] Geospatial analysis using turf.js (in progress)
+- [ ] Front-end visualization
+- [ ] Timed CRON Jobs
+- [ ] Server setup and deployment
 
 ## Disclaimer. 
 
@@ -56,35 +31,16 @@ _This setup assumes that you understand at least a little about NodeJS, and have
 To get where I currently am with this, do the following from a terminal in Linux or OS X:
 1. `git clone https://github.com/brianbancroft/ttc-clustering.git`
 2. `cd ttc-clustering && npm i`
-3. `psql`
-4. `CREATE DATABASE ttc_clustering_development;`
-5. `\q`
-6. `psql ttc_clustering_development`
-7. `CREATE EXTENSION POSTGIS;`
-8. Create the cluster_points table:
-```
-CREATE TABLE cluster_points(
-  id SERIAL,
-  route TEXT,
-  direction_tag TEXT,
-  heading INT,
-  time TIMESTAMP,
-  is_clustered BOOLEAN,
-  location geography(POINT, 4326)
-);
-```
-9. Finally you're set up: `npm start`
+3. `yarn add -g sequelize-cli`
+4. `sequelize db:migrate`
+5. Finally you're set up: `npm start`
 
 Once here, you're going to be at the same stage where I am at the tip of the master branch. 
 
-## Additions:
-This might end up being a large project. As this is the case, there's a lot of To-do's that are happening. Here are some, and some tutorials I'll be running through to understand them better - when the time comes:
-
-### CRON - SERVER-SIDE TASKS AT CERTAIN TIMES
-Intent is to do further actions through cron jobs in Express:
 
 https://www.npmjs.com/package/node-schedule
 
+# Lessons Learned, so far
 
 ## Using TTC NVAS
 There is a lovely documement that explains the process available to run all the REST queries for the Toronto Transit Commission's Next Vehicle Arrival System (NVAS). This is what I got: 
