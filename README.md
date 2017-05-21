@@ -16,8 +16,8 @@ Like everything JS, dealing with asynchronity is the largest challenge. Right no
 
 - [x] Initial disovery with PSQL + PostGIS
 - [ ] Basic ORM Integration (in progress)
-- [ ] Geospatial analysis using turf.js (in progress)
-- [ ] Front-end visualization
+- [x] Geospatial analysis using turf.js
+- [ ] Front-end visualization (in progress)
 - [ ] Timed CRON Jobs
 - [ ] Server setup and deployment
 
