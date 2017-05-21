@@ -15,7 +15,7 @@ Like everything JS, dealing with asynchronity is the largest challenge. Right no
 ## Stages [Project Board](https://github.com/brianbancroft/ttc-clustering/projects/1)
 
 - [x] Initial disovery with PSQL + PostGIS
-- [ ] Basic ORM Integration (in progress)
+- [x] Basic ORM Integration (in progress)
 - [x] Geospatial analysis using turf.js
 - [ ] Front-end visualization (in progress)
 - [ ] Timed CRON Jobs
