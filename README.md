@@ -1,4 +1,4 @@
-# Gather real time clustering
+# Gather real time clustering 
 
 ## The Low-Down
 
@@ -12,7 +12,7 @@ I intend the stack to be Node with Express, PostGres with PostGIS. Pages to be r
 
 Like everything JS, dealing with asynchronity is the largest challenge. Right now, I have a path `/test-extract` which needs to render the result of a database query. But in order to do that, actions need to be taken as the result of a callback.
 
-## Stages
+## Stages [Project Board](https://github.com/brianbancroft/ttc-clustering/projects/1)
 
 - [x] Initial disovery with PSQL + PostGIS
 - [ ] Basic ORM Integration (in progress)
