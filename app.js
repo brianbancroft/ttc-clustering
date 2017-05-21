@@ -91,10 +91,13 @@ BusRecordController.ingestBusData = (req, res) => {
 }
 
 BusRecordController.getSampleBusData = (req, res) => {
-  BusLocation.all({where: {route: '60'}}).then(data => {
-    res.render('index', {
+  // TODO: Get route, date params from query
+  const route = '60'
+  BusLocation.all({where: {route: route}}).then(data => {
+    res.render('map', {
     data : {
-      title: 'Data obtained'
+      title: 'Data obtained',
+      geodata: JSON.stringify(turf.featureCollection(data.map(element => turf.point(element.point.coordinates, {dirTag: element.dirTag}))))
     }
   })
   }).catch(err => {
@@ -107,6 +110,7 @@ BusRecordController.getSampleBusData = (req, res) => {
 }
 
 // ====== MODULES =====
+// turf.featureCollection(foo.map(element => turf.point(element.point.coordinates, {dirTag: element.direction_tag})))
 
 const NextVehicleArrivalSystem = {}
 
