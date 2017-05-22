@@ -5,6 +5,9 @@ const router = express.Router()
 
 var rp = require('request-promise')
 const http = require('http')
+const useragent = require('express-useragent')
+app.use(useragent.express())
+
 
 // ===== TEMPLATING ENGINE (PUG) =====
 app.set('views', __dirname + '/views')
@@ -63,13 +66,7 @@ const BusLocation = sequelize.define('BusLocation', {
 
 const HomePageController = {}
 
-HomePageController.homePage = (req, res) => {
-  res.render('index', {
-    data : {
-      title: 'Home Page'
-    }
-  })
-}
+HomePageController.homePage = (req, res) => req.useragent.isMobile ? RenderViews.mobileIndex(req, res) : RenderViews.desktopIndex(req, res)
 
 const BusRecordController = {}
 
@@ -102,27 +99,35 @@ BusRecordController.getSampleBusData = (req, res) => {
           }
         })
       } else {
-        res.render('index', {
+        res.render('desktop/index', {
           data: {
             title: 'No data returned from request'
           }
         })
       }
     }).catch(err => {
-      res.render('index', {
+      res.render('desktop/index', {
         data: {
           title: err
         }
       })
     })
   } else { 
-    res.render('index', {
+    res.render('desktop/index', {
       data: {
         title: 'Page requires route query param'
       }
     })
   }
 }
+
+// ====== VIEWS ======
+
+const RenderViews = {}
+
+RenderViews.mobileIndex = (req, res) => res.render('mobile/index')
+RenderViews.desktopIndex = (req, res) => res.render('desktop/index')
+RenderViews.view404page = (req, res) => res.render('mobile/errorpage', {data: {error: 'Page not found'}})
 
 // ====== MODULES =====
 
@@ -165,6 +170,7 @@ router.get('/', HomePageController.homePage)
 // QP: busses, date
 router.get('/busses', BusRecordController.getSampleBusData)
 router.post('/request', BusRecordController.ingestBusData)
+router.get('*', RenderViews.view404page)
 
 app.use('/', router)
 

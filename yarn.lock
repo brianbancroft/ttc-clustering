@@ -1478,6 +1478,10 @@ expand-tilde@^1.2.1, expand-tilde@^1.2.2:
   dependencies:
     os-homedir "^1.0.1"
 
+express-useragent@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/express-useragent/-/express-useragent-1.0.7.tgz#153de647e5a5d05c4ec1b4172794a46bc0d07991"
+
 express@^4.15.2:
   version "4.15.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.15.2.tgz#af107fc148504457f2dca9a6f2571d7129b97b35"
