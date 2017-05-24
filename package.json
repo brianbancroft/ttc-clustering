@@ -17,6 +17,7 @@
     "leaflet": "^1.0.3",
     "leaflet-map": "^0.2.1",
     "moment": "^2.18.1",
+    "node-schedule": "^1.2.3",
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
     "pug": "^2.0.0-rc.1",

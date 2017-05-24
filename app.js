@@ -21,6 +21,10 @@ const turf = require('@turf/turf')
 // Enforces ORM in app
 Sequelize = require('sequelize')
 
+// Creates a schedule
+
+const schedule = require('node-schedule')
+
 // Imports environment variables from .env file
 require('dotenv').config({ path: '.env' })
 
