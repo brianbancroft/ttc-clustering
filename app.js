@@ -178,8 +178,14 @@ router.get('*', RenderViews.view404page)
 
 app.use('/', router)
 
-// App
+// ====== APP ============
 app.set('port', process.env.PORT || 3000)
 const server = app.listen(app.get('port'), () => {
   console.log(`TTC Clustering app running on PORT -> ${server.address().port}`)
 })
+
+// ===== CRON-LIKE SCHEDULING ========
+
+const j = schedule.scheduleJob('0 5 * * *', function(){
+  console.log('The answer to life, the universe, and everything!');
+});
