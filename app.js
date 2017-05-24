@@ -125,6 +125,23 @@ BusRecordController.getSampleBusData = (req, res) => {
   }
 }
 
+BusRecordController.timedSampleIngest = () => {
+  NextVehicleArrivalSystem.request()
+  .then((data) => {
+    // const time = new Date().toISOString()
+    
+    // gathers all points for clustering comparasion
+    const refGeoJSON = GeoJSONConversion.setupPointCollection(data.vehicle)
+    data.vehicle.map((bus) => BusLocation.create(BusLocationSetup.singleInstance(bus, refGeoJSON)))
+  })
+  .then(() => {
+    console.log('Sample Ingest successful')
+  })
+  .catch((err) => {
+    console.warn('Sample Ingest failed', err)
+  })
+}
+
 // ====== VIEWS ======
 
 const RenderViews = {}
@@ -185,7 +202,19 @@ const server = app.listen(app.get('port'), () => {
 })
 
 // ===== CRON-LIKE SCHEDULING ========
+let counter = 0
+taskSchedule = new schedule.RecurrenceRule()
 
-const j = schedule.scheduleJob('0 5 * * *', function(){
-  console.log('The answer to life, the universe, and everything!');
-});
+taskSchedule.minute = 5
+
+function reportOnSchdeule () {
+    //increment the counter
+    counter++;
+
+    //report that the scheduled task ran
+    console.log('The scheduled task ran. This is iteration #: ' + counter)
+}
+
+schedule.scheduleJob(taskSchedule, reportOnSchdeule)
+
+console.log('The schdule has been initialzed')
