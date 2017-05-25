@@ -126,6 +126,7 @@ BusRecordController.getSampleBusData = (req, res) => {
 }
 
 BusRecordController.timedSampleIngest = () => {
+  console.log('===== NEW TIMED INGEST =======')
   NextVehicleArrivalSystem.request()
   .then((data) => {
     // const time = new Date().toISOString()
@@ -203,18 +204,16 @@ const server = app.listen(app.get('port'), () => {
 
 // ===== CRON-LIKE SCHEDULING ========
 let counter = 0
-taskSchedule = new schedule.RecurrenceRule()
+busIngestSchedule = new schedule.RecurrenceRule()
+counterIncrementSchedule = new schedule.RecurrenceRule()
 
-taskSchedule.minute = 5
+busIngestSchedule.second = 150
+counterIncrementSchedule.second = 10
 
-function reportOnSchdeule () {
-    //increment the counter
-    counter++;
-
-    //report that the scheduled task ran
-    console.log('The scheduled task ran. This is iteration #: ' + counter)
-}
-
-schedule.scheduleJob(taskSchedule, reportOnSchdeule)
+schedule.scheduleJob(counterIncrementSchedule, () => {
+  counter++
+  console.log(`Counter Schedule Increment -> Revolution#${counter}`)
+})
+schedule.scheduleJob(busIngestSchedule, BusRecordController.timedSampleIngest)
 
 console.log('The schdule has been initialzed')
