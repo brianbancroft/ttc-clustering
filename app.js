@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const router = express.Router()
+
 
 const http = require('http')
 const useragent = require('express-useragent')
@@ -11,7 +11,6 @@ app.use(useragent.express())
 // ===== TEMPLATING  =====
 app.set('views', __dirname + '/views')
 app.set('view engine', 'pug')
-const RenderViews = require('./views/RenderViews')
 
 // ===== MIDDLEWARE =====
 // var moment = require('moment')
@@ -27,19 +26,8 @@ require('dotenv').config({ path: '.env' })
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-// ===== CONTROLLERS =====
-
-const HomePageController = require('./controllers/HomePageController')
-const BusRecordController = require('./controllers/BusRecordController')
-
 // ======= ROUTES ================
-
-router.get('/', HomePageController.homePage)
-// QP: busses, date
-router.get('/busses', BusRecordController.getSampleBusData)
-router.post('/request', BusRecordController.ingestBusData)
-router.get('*', RenderViews.view404page)
-
+const router = require('./router')
 app.use('/', router)
 
 // ====== APP ============
@@ -49,17 +37,25 @@ const server = app.listen(app.get('port'), () => {
 })
 
 // ===== CRON-LIKE SCHEDULING ========
-let counter = 0
+const BusRecordController = require('./controllers/BusRecordController')
+
+let inertCounter = 0
+let busCounter = 0
 busIngestSchedule = new schedule.RecurrenceRule()
 counterIncrementSchedule = new schedule.RecurrenceRule()
 
-busIngestSchedule.second = 150
+busIngestSchedule.second = 300
 counterIncrementSchedule.second = 10
 
 schedule.scheduleJob(counterIncrementSchedule, () => {
-  counter++
-  console.log(`Counter Schedule Increment -> Revolution#${counter}`)
+  inertCounter++
+  console.log(`Ten-second counter -> Revolution#${inertCounter}`)
 })
-schedule.scheduleJob(busIngestSchedule, BusRecordController.timedSampleIngest)
+schedule.scheduleJob(busIngestSchedule, () => {
+  busCounter++
+  console.log(`Five-minute interveal bus collection starting. This is serial number -> ${busCounter}`)
 
-console.log('The schdule has been initialzed')
+  BusRecordController.timedSampleIngest
+})
+
+console.log('The schedule has been initialzed')
