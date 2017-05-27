@@ -32,6 +32,8 @@ require('dotenv').config({ path: '.env' })
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+const RenderViews = require('./views/RenderViews')
+
 // ===== DATABASE =====
 
 const sequelize = new Sequelize('ttcclusters_development', /*user*/'brianbancroft', /*pass*/'', {
@@ -142,14 +144,6 @@ BusRecordController.timedSampleIngest = () => {
     console.warn('Sample Ingest failed', err)
   })
 }
-
-// ====== VIEWS ======
-
-const RenderViews = {}
-
-RenderViews.mobileIndex = (req, res) => res.render('mobile/index')
-RenderViews.desktopIndex = (req, res) => res.render('desktop/index')
-RenderViews.view404page = (req, res) => res.render('mobile/errorpage', {data: {error: 'Page not found'}})
 
 // ====== MODULES =====
 
