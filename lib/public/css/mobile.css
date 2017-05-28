@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+}
+header {
+  background: #535353;
+  border: 1px solid #979797;
+  height: 6vh;
+  width: 100vw;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+main {
+  height: 77vh;
+  top: 10vh;
+}
+
+footer {
+  height: 10vh;
+  background: #D8D8D8;
+  font-family: Helvetica-Oblique;
+  font-size: 14px;
+  color: #000000;
+}
+.form-group {
+  height: 400px;
+}
+.btn.btn-selected {
+  background: #B80000;
+  border: 1px solid #979797;
+  font-family: Helvetica-Bold;
+  font-size: 11px;
+  color: #FFFFFF;
+}
