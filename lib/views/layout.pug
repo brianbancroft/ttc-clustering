@@ -1,7 +1,7 @@
 html
   head
     block head
-      link(rel='stylesheet', href='/css/mobile.css')
+      link(rel='stylesheet', href=`/css/${cssSheet}.css`)
       script(src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.js")
 
   body
@@ -12,4 +12,6 @@ html
     block content
     
   footer
-    div This is being done to do stuff
+    .left-content
+    .center-content
+    .right-content

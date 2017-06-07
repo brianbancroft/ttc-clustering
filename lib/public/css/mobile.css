@@ -6,14 +6,12 @@ header {
   border: 1px solid #979797;
   height: 6vh;
   width: 100vw;
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-content: center;
+}
+header img {
+  margin: 0 auto;
 }
 main {
-  height: 77vh;
-  top: 10vh;
+  height: 67vh;
 }
 
 footer {

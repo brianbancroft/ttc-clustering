@@ -9,6 +9,7 @@
   "dependencies": {
     "@turf/turf": "^4.1.0",
     "body-parser": "^1.17.2",
+    "bootstrap-material-design": "^0.5.10",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
     "express-useragent": "^1.0.7",

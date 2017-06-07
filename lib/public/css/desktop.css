@@ -1,0 +1,57 @@
+body {
+  margin: 0;
+}
+header {
+  background: #535353;
+  border: 1px solid #979797;
+  height: 15vh;
+  width: 100vw;
+  display: flex;
+}
+header img {
+  margin: 0 auto;
+}
+main {
+  height: 70vh;
+}
+
+footer {
+  height: 12vh;
+  background: #D8D8D8;
+  font-family: Helvetica-Oblique;
+  font-size: 14px;
+  color: #000000;
+  display: flex;
+  align-content: center;
+  justify-content: space-around;
+}
+
+footer .left-content {
+  height: 80%;
+  width: 28%;
+  margin-top: 2%;
+  background: white;
+
+}
+footer .center-content {
+  height: 80%;
+  width: 28%;
+  margin-top: 2%;
+  background: white;
+}
+footer .right-content {
+  height: 80%;
+  width: 28%;
+  margin-top: 2%;
+  background: white;
+}
+.form-group {
+  
+}
+.btn.btn-selected {
+  background: #B80000;
+  border: 1px solid #979797;
+  font-family: Helvetica-Bold;
+  font-size: 11px;
+  color: #FFFFFF;
+}
