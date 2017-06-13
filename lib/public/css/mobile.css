@@ -7,8 +7,11 @@ header {
   height: 6vh;
   width: 100vw;
 }
-header img {
-  margin: 0 auto;
+header .container {
+  padding-top: 5%;
+}
+header .container img {
+  display: flex;
 }
 main {
   height: 67vh;

@@ -6,14 +6,18 @@ header {
   border: 1px solid #979797;
   height: 15vh;
   width: 100vw;
-  display: flex;
 }
-header img {
-  margin: 0 auto;
+header .container {
+  padding-top: 3vh;
 }
 main {
   height: 70vh;
 }
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+ }
 
 footer {
   height: 12vh;
