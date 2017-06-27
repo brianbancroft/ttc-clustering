@@ -1,30 +1,32 @@
-# Gather real time clustering 
+# Gather real time clustering
 
 ## The Low-Down
 
-Recently, people close to me have observed some clustering issues with the TTC Busses. There exist high-demand routes where busses are supposed to arrive within ten minutes. However being the periphery of the TTC, and the traffic on this road being particularly bad, the busses have a tendency to cluster instead, leaving service gaps of up to 40-minutes from stories. 
+Recently, people close to me have observed some clustering issues with the TTC Busses. There exist high-demand routes where busses are supposed to arrive within ten minutes. However being the periphery of the TTC, and the traffic on this road being particularly bad, the busses have a tendency to cluster instead, leaving service gaps of up to 40-minutes from stories.
 
-This app is being developed to prove the hypothesis that _"TTC Busses on the 60 route have a tendency to cluster and cause service disruption at a systematic level_". 
+This app is being developed to prove the hypothesis that _"TTC Busses on the 60 route have a tendency to cluster and cause service disruption at a systematic level_".
 
-I intend the stack to be Node with Express, PostGres with PostGIS. Pages to be rendered will be with Vue. Mapping to be done with leaflet, for now. 
+I intend the stack to be Node with Express, PostGres with PostGIS. Pages to be rendered will be with Vue. Mapping to be done with leaflet, for now.
 
-## My current roadblock
+## My current roadblocks
 
-Like everything JS, dealing with asynchronity is the largest challenge. Right now, I have a path `/test-extract` which needs to render the result of a database query. But in order to do that, actions need to be taken as the result of a callback.
+- I'm pretty awful with Pug and CSS. I'm currently attempting to get the homepage looking nice.
+- I'm still working with Timed Cron Jobs for Node. They aren't all running as intended.
+
 
 ## Stages [Project Board](https://github.com/brianbancroft/ttc-clustering/projects/1)
 
 - [x] Initial disovery with PSQL + PostGIS
-- [x] Basic ORM Integration (in progress)
+- [x] Transfer of PostGIS commands to ORM
 - [x] Geospatial analysis using turf.js
-- [x] Front-end visualization (in progress)
-- [x] Timed CRON Jobs
+- [ ] Front-end visualization (in progress)
+- [ ] Timed CRON Jobs
 - [ ] Fully-featured UI
 - [ ] Server setup and deployment
 
-## Disclaimer. 
+## Disclaimer.
 
-I'm usually a rails dev, so making this happen will be tricky for me. It will be new. I'm always happy to get assistance where I can, but I may get cranky based on whatever technical problem I'm trying to solve. 
+I'm usually a rails dev, so making this happen will be tricky for me. It will be new. I'm always happy to get assistance where I can, but I may get cranky based on whatever technical problem I'm trying to solve.
 
 ## Setup
 _This setup assumes that you understand at least a little about NodeJS, and have NPM and PostGRES 9.4 or later installed._
@@ -36,7 +38,7 @@ To get where I currently am with this, do the following from a terminal in Linux
 4. `sequelize db:migrate`
 5. Finally you're set up: `npm start`
 
-Once here, you're going to be at the same stage where I am at the tip of the master branch. 
+Once here, you're going to be at the same stage where I am at the tip of the master branch.
 
 
 https://www.npmjs.com/package/node-schedule
@@ -44,18 +46,18 @@ https://www.npmjs.com/package/node-schedule
 # Lessons Learned, so far
 
 ## Using TTC NVAS
-There is a lovely documement that explains the process available to run all the REST queries for the Toronto Transit Commission's Next Vehicle Arrival System (NVAS). This is what I got: 
+There is a lovely documement that explains the process available to run all the REST queries for the Toronto Transit Commission's Next Vehicle Arrival System (NVAS). This is what I got:
 
 
-### First request for a bus: 
+### First request for a bus:
 [http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60]([http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=ttc&r=60])
 
 ### Subsequent requests for the same bus:
  [http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491104874326](http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=ttc&r=60&t=1491104874326)
 
---- 
+---
 
-The difference between the two is that subsequent requests want you to place in the last time a request was made. 
+The difference between the two is that subsequent requests want you to place in the last time a request was made.
 
 ### API Reply:
 The following is an excerpt of the reply, around a single vehicle.
@@ -73,7 +75,7 @@ The following is an excerpt of the reply, around a single vehicle.
 
 ### Sample Queries and Schema
 
-The following are queries that are parameterized in this app. 
+The following are queries that are parameterized in this app.
 
 #### Create Table Command
 ```
@@ -116,21 +118,21 @@ WHERE id=2;
 ```
 #### Select One
 ```
-SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points 
+SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points
   WHERE id=2;
 ```
 
 #### Select within 1000 meters
 ```
-SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points 
+SELECT (id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points
   WHERE ST_DWithin(ST_GeomFromText('POINT(-79.526535 43.774467)'), location, 1000);
 
-``` 
+```
 
 #### Select within 1000m as JSON (not working)
 
 ```
-SELECT row_to_json(id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points 
+SELECT row_to_json(id, route, direction_tag, heading, time,is_clustered, ST_AsGeoJSON(location)) FROM cluster_points
   WHERE ST_DWithin(ST_GeomFromText('POINT(-79.526535 43.774467)'), location, 1000);
 
 ```
@@ -146,16 +148,16 @@ id | int | *
 location | geography | Point, EPSG 4326
 route | string |
 direction_tag | string |
-heading | integer | 
-time | time | 
-is_clustered | boolean | 
+heading | integer |
+time | time |
+is_clustered | boolean |
 
 
 #### SAMPLE HEADINGS
 
 Something I'm noticing, at least with route 60 is that there is little correlation between the route tag parameters from an API call and their associated heading - something I hoped would be clearer.
 
-bus tag | heading 
+bus tag | heading
 --- | ---
 D | 74
 C | 73
