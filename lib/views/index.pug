@@ -4,4 +4,22 @@ block append content
     .jumbotron
       h1 Find snags in the TTC!
       p.explainer Feel like the busses on frequent routes bottle up, turning a less-then ten minute turnaround up to 30 minutes between groups? Use this app to prove this and get the attenion of the service?
-    .col
+    .row
+      .col left
+      .col-6
+        p Choose the bus you want
+        br
+        form
+          .btn-group(data-toggle="buttons")
+            label.btn.btn-primary.active
+              input#option1(type="radio", name="options", autocomplete="off", checked)
+              7
+            label.btn.btn-primary
+              input#option2(type="radio", name="options", autocomplete="off")
+              60
+            label.btn.btn-primary
+              input#option3(type="radio", name="options", autocomplete="off")
+              129
+          input(type="submit")
+          p choose the day!
+      .col right

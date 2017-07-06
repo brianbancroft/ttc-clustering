@@ -2,13 +2,14 @@ html
   head
     block head
       link(rel='stylesheet', href=`/css/${cssSheet}.css`)
-      link(rel="stylesheet" href="https://cdn.jsdelivr.net/g/bootstrap.material-design@4.0.2(bootstrap-material-design.min.css+bootstrap-material-design.css)")
-      
-      //- https://cdn.jsdelivr.net/bootstrap.material-design/4.0.2/bootstrap-material-design.iife.js.map
-      //- https://cdn.jsdelivr.net/bootstrap.material-design/4.0.2/bootstrap-material-design.umd.js.map      
-      script(src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.js")
-      script(src="https://cdn.jsdelivr.net/g/bootstrap.material-design@4.0.2(bootstrap-material-design.iife.min.js+bootstrap-material-design.umd.js+bootstrap-material-design.iife.js)")
+      link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ", crossorigin="anonymous")
 
+      //- https://cdn.jsdelivr.net/bootstrap.material-design/4.0.2/bootstrap-material-design.iife.js.map
+      //- https://cdn.jsdelivr.net/bootstrap.material-design/4.0.2/bootstrap-material-design.umd.js.map
+      script(src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.js")
+      script(src="https://code.jquery.com/jquery-3.1.1.slim.min.js", integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n", crossorigin="anonymous")
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js", integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb", crossorigin="anonymous")
+      script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js", integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn", crossorigin="anonymous")
   body
     header
       .container
@@ -16,7 +17,7 @@ html
 
   main
     block content
-    
+
   footer
     .container
       .col.col-md-3
