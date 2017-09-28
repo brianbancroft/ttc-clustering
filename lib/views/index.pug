@@ -1,9 +1,9 @@
 extends layout.pug
 block append content
   .container
-    .col
-    .col-6
+    .jumbotron
       h1 Find snags in the TTC!
+<<<<<<< HEAD
       .explainer Feel like the busses on frequent routes bottle up, turning a less-then ten minute turnaround up to 30 minutes between groups? Use this app to prove this and get the attenion of the service?
     .col
     form(action="/route", type="get")
@@ -21,3 +21,25 @@ block append content
         label(for="buschoice1") Bus 4
       input(type="submit", value="submit")
 
+=======
+      p.explainer Feel like the busses on frequent routes bottle up, turning a less-then ten minute turnaround up to 30 minutes between groups? Use this app to prove this and get the attenion of the service?
+    .row
+      .col left
+      .col-6
+        p Choose the bus you want
+        br
+        form
+          .btn-group(data-toggle="buttons")
+            label.btn.btn-primary.active
+              input#option1(type="radio", name="options", autocomplete="off", checked)
+              7
+            label.btn.btn-primary
+              input#option2(type="radio", name="options", autocomplete="off")
+              60
+            label.btn.btn-primary
+              input#option3(type="radio", name="options", autocomplete="off")
+              129
+          input(type="submit")
+          p choose the day!
+      .col right
+>>>>>>> 8b4a527f501b52345de91cbc370cc312695b1def

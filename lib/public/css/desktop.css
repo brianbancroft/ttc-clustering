@@ -4,11 +4,8 @@ body {
 header {
   background: #535353;
   border: 1px solid #979797;
-  height: 15vh;
+  height: 10vh;
   width: 100vw;
-}
-header .container {
-  padding-top: 3vh;
 }
 main {
   height: 70vh;
@@ -50,7 +47,7 @@ footer .right-content {
   background: white;
 }
 .form-group {
-  
+
 }
 .btn.btn-selected {
   background: #B80000;
