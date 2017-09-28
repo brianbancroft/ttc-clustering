@@ -6,4 +6,18 @@ block append content
       h1 Find snags in the TTC!
       .explainer Feel like the busses on frequent routes bottle up, turning a less-then ten minute turnaround up to 30 minutes between groups? Use this app to prove this and get the attenion of the service?
     .col
-     
+    form(action="/route", type="get")
+      .label Pick a date!
+      input(type="date", class="datepicker")
+      .label Pick a bus!
+      div
+        input(type="radio", id="buschoice1", name="buschoice", value="buschoice1" checked)
+        label(for="buschoice1") Bus 1
+        input(type="radio", id="buschoice2", name="buschoice", value="buschoice2")
+        label(for="buschoice1") Bus 2
+        input(type="radio", id="buschoice3", name="buschoice", value="buschoice3")
+        label(for="buschoice3") Bus 3
+        input(type="radio", id="buschoice4", name="buschoice", value="buschoice4")
+        label(for="buschoice1") Bus 4
+      input(type="submit", value="submit")
+
