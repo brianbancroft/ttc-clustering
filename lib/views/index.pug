@@ -3,7 +3,6 @@ block append content
   .container
     .jumbotron
       h1 Find snags in the TTC!
-<<<<<<< HEAD
       .explainer Feel like the busses on frequent routes bottle up, turning a less-then ten minute turnaround up to 30 minutes between groups? Use this app to prove this and get the attenion of the service?
     .col
     form(action="/route", type="get")
@@ -11,35 +10,9 @@ block append content
       input(type="date", class="datepicker")
       .label Pick a bus!
       div
-        input(type="radio", id="buschoice1", name="buschoice", value="buschoice1" checked)
+        input(type="radio", id="buschoice1", name="buschoice", value="60" checked)
         label(for="buschoice1") Bus 1
-        input(type="radio", id="buschoice2", name="buschoice", value="buschoice2")
+        input(type="radio", id="buschoice2", name="buschoice", value="7")
         label(for="buschoice1") Bus 2
-        input(type="radio", id="buschoice3", name="buschoice", value="buschoice3")
-        label(for="buschoice3") Bus 3
-        input(type="radio", id="buschoice4", name="buschoice", value="buschoice4")
-        label(for="buschoice1") Bus 4
       input(type="submit", value="submit")
 
-=======
-      p.explainer Feel like the busses on frequent routes bottle up, turning a less-then ten minute turnaround up to 30 minutes between groups? Use this app to prove this and get the attenion of the service?
-    .row
-      .col left
-      .col-6
-        p Choose the bus you want
-        br
-        form
-          .btn-group(data-toggle="buttons")
-            label.btn.btn-primary.active
-              input#option1(type="radio", name="options", autocomplete="off", checked)
-              7
-            label.btn.btn-primary
-              input#option2(type="radio", name="options", autocomplete="off")
-              60
-            label.btn.btn-primary
-              input#option3(type="radio", name="options", autocomplete="off")
-              129
-          input(type="submit")
-          p choose the day!
-      .col right
->>>>>>> 8b4a527f501b52345de91cbc370cc312695b1def
