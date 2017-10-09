@@ -5,7 +5,8 @@
   "main": "index.js",
   "repository": "https://github.com/brianbancroft/ttc-clustering.git",
   "author": "Brian Bancroft <hello@brianbancroft.ca>",
-  "license": "MIT",
+  "license": "UNLICENSED",
+  "private": true,
   "dependencies": {
     "@turf/turf": "^4.1.0",
     "body-parser": "^1.17.2",
